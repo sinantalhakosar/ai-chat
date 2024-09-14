@@ -1,5 +1,5 @@
-import { resetPasswordAction } from "@/app/actions";
-import { FormMessage, Message } from "@/components/form-message";
+import { FormMessage, Message } from "@/components/FormMessage";
+import ResetPasswordForm from "./ResetPasswordForm";
 
 export default async function ResetPassword({
   searchParams,
@@ -7,29 +7,14 @@ export default async function ResetPassword({
   searchParams: Message;
 }) {
   return (
-    <form className="flex flex-col w-full max-w-md p-4 gap-2 [&>input]:mb-4">
-      <h1 className="text-2xl font-medium">Reset password</h1>
-      <p className="text-sm text-foreground/60">
-        Please enter your new password below.
-      </p>
-      {/* <Label htmlFor="password">New password</Label>
-      <Input
-        type="password"
-        name="password"
-        placeholder="New password"
-        required
-      />
-      <Label htmlFor="confirmPassword">Confirm password</Label>
-      <Input
-        type="password"
-        name="confirmPassword"
-        placeholder="Confirm password"
-        required
-      />
-      <SubmitButton formAction={resetPasswordAction}>
-        Reset password
-      </SubmitButton> */}
-      <FormMessage message={searchParams} />
-    </form>
+    <div className="flex flex-col items-center">
+      <div className="w-full max-w-md space-y-8">
+        <FormMessage message={searchParams} />
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
+          Reset your password
+        </h2>
+        <ResetPasswordForm />
+      </div>
+    </div>
   );
 }

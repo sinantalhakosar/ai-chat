@@ -4,7 +4,11 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { ForgotPasswordFormValues, SigninFormValues } from "@/types/Auth.types";
+import {
+  ForgotPasswordFormValues,
+  ResetPasswordFormValues,
+  SigninFormValues,
+} from "@/types/Auth.types";
 
 export const signUpAction = async (formData: SigninFormValues) => {
   const { email, password } = formData;
@@ -82,11 +86,12 @@ export const forgotPasswordAction = async (
   );
 };
 
-export const resetPasswordAction = async (formData: FormData) => {
+export const resetPasswordAction = async (
+  formData: ResetPasswordFormValues
+) => {
   const supabase = createClient();
 
-  const password = formData.get("password") as string;
-  const confirmPassword = formData.get("confirmPassword") as string;
+  const { password, confirmPassword } = formData;
 
   if (!password || !confirmPassword) {
     encodedRedirect(
