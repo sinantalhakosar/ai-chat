@@ -18,6 +18,9 @@ const config = {
   		}
   	},
   	extend: {
+  		fontFamily: {
+  			sans: ['var(--font-sans)'],
+  		},
   		colors: {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
@@ -25,7 +28,7 @@ const config = {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
+				DEFAULT: '#fe8421d4',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
