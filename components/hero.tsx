@@ -21,11 +21,11 @@ export default function Hero() {
           className="w-full md:w-1/2 flex justify-center mb-4 md:mb-0 md:order-2"
         >
           <Image
-            src="/images/kurama.png"
+            src="/images/kyubi.svg"
             alt="AI Chat Assistant"
-            width={400}
-            height={400}
-            className="rounded-lg shadow-2xl max-w-full h-auto"
+            width={225}
+            height={225}
+            className="rounded-lg max-w-full h-auto w-[200px] sm:w-[225px]"
           />
         </motion.div>
         <div className="w-full md:w-1/2 md:order-1">
