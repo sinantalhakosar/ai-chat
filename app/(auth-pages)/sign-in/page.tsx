@@ -92,7 +92,7 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
             />
             <div className="flex items-center justify-between">
               <Link
-                className="text-sm text-blue-600 hover:text-blue-400"
+                className="text-sm text-blue-600 hover:underline"
                 href="/forgot-password"
               >
                 Forgot your password?
@@ -117,7 +117,7 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
         <p className="mt-2 text-center text-sm text-foreground">
           Don't have an account?{" "}
           <Link
-            className="font-medium text-blue-600 hover:text-blue-400 underline"
+            className="font-medium text-blue-600 hover:underline"
             href="/sign-up"
           >
             Sign up

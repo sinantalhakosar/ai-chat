@@ -114,7 +114,7 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
         <p className="mt-2 text-center text-sm text-foreground">
           Already have an account?{" "}
           <Link
-            className="font-medium text-blue-600 hover:text-blue-400 underline"
+            className="font-medium text-blue-600 hover:underline"
             href="/sign-in"
           >
             Sign in
