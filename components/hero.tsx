@@ -51,19 +51,19 @@ export default function Hero() {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 mb-8"
           >
-            <motion.div>
+            <motion.div className="w-full sm:w-auto">
               <Button
                 asChild
                 size="2xl"
-                className="font-bold text-lg transition-all duration-300 shadow-md transform hover:-translate-y-1 hover:shadow-lg px-6 py-3"
+                className="w-full sm:w-auto font-bold text-lg transition-all duration-300 shadow-md transform hover:-translate-y-1 hover:shadow-lg px-6 py-3"
               >
                 <Link href="/dashboard">Start Chatting</Link>
               </Button>
             </motion.div>
-            <motion.div>
+            <motion.div className="w-full sm:w-auto">
               <Link
                 href="#features"
-                className="inline-block bg-transparent backdrop-blur-md text-orange-400 px-6 py-3 rounded-lg font-bold text-lg transition-all duration-300 shadow-md border-2 border-orange-400 transform hover:-translate-y-1 hover:shadow-lg text-center"
+                className="w-full sm:w-auto inline-block bg-transparent backdrop-blur-md text-orange-400 px-6 py-3 rounded-lg font-bold text-lg transition-all duration-300 shadow-md border-2 border-orange-400 transform hover:-translate-y-1 hover:shadow-lg text-center"
               >
                 Explore Features
               </Link>
