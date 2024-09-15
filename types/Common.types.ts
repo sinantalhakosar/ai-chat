@@ -2,6 +2,14 @@ import { Database } from "@/database.types";
 
 export type Provider = Database["public"]["Enums"]["providers"];
 
+export type ChatType = Database["public"]["Tables"]["chats"]["Row"];
+
+export type MessageType = {
+  role: "user" | "assistant" | "system";
+  content: string;
+  timestamp: string;
+};
+
 export const availableProviders: Array<Provider> = ["openAI", "google"];
 
 // OpenAIChatModelId is not exported from @ai-sdk/openai, so we need to define it ourselves

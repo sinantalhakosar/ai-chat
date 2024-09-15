@@ -1,42 +1,30 @@
-"use client";
+import { ChatType, MessageType } from "@/types/Common.types";
 
-import { useChat } from "ai/react";
-import { useDashboard } from "./DashboardContext";
+interface Props {
+  chat: ChatType;
+  active: boolean;
+  onClick: (chatId: ChatType["id"]) => void;
+}
 
-export default function Chat() {
-  const { selectedChatId, selectedProvider } = useDashboard();
+export const Chat = ({ chat, onClick, active }: Props) => {
+  const { content, timestamp } = chat.last_message as MessageType;
 
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    api: "/api/chat",
-    body: {
-      model: 'gemini-1.5-flash-latest',
-    },
-    initialMessages: [
-      {
-        id: "welcome-message",
-        role: "assistant",
-        content: `Hello! I'm using the gemini-1.5-flash-latest model. How can I assist you today?`,
-      },
-    ],
+  const truncatedMessage =
+    content.length > 20 ? content.slice(0, 20) + "..." : content;
+
+  const time = new Date(timestamp).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
   });
 
   return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto">
-      chatId: {selectedChatId}, provider: {selectedProvider}
-      {messages.map((m) => (
-        <div key={m.id} className="whitespace-pre-wrap">
-          {m.role === "user" ? "Human: " : "AI: "}
-          {m.content}
-        </div>
-      ))}
-      <form onSubmit={handleSubmit}>
-        <input
-          className="w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
-          value={input}
-          placeholder="Say something..."
-          onChange={handleInputChange}
-        />
-      </form>
+    <div
+      className={`flex flex-row justify-between cursor-pointer hover:bg-gray-800 p-4 rounded-lg gap-2 border border-red-700 ${active ? "bg-gray-600" : ""}`}
+      onClick={() => onClick(chat.id)}
+    >
+      <div className="text-sm font-medium">{truncatedMessage}</div>
+      <div className="text-sm font-medium">{time}</div>
     </div>
   );
-}
+};
