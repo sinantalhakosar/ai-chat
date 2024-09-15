@@ -4,11 +4,7 @@ export type Provider = Database["public"]["Enums"]["providers"];
 
 export type ChatType = Database["public"]["Tables"]["chats"]["Row"];
 
-export type MessageType = {
-  role: "user" | "assistant" | "system";
-  content: string;
-  timestamp: string;
-};
+export type MessageType = Database["public"]["Tables"]["messages"]["Row"];
 
 export const availableProviders: Array<Provider> = ["openAI", "google"];
 

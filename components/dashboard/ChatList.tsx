@@ -3,7 +3,7 @@
 import { createClient } from "@/utils/supabase/client";
 import { useDashboard } from "../../contexts/DashboardContext";
 import { useCallback, useEffect, useState } from "react";
-import { ChatType, MessageType, Provider } from "@/types/Common.types";
+import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "./Chat";
 import { Input } from "../ui/input";
 import { Search } from "lucide-react";

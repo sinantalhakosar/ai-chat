@@ -1,11 +1,9 @@
 import { HeaderAuth } from "@/components/HeaderAuth";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 import { GeistMono } from "geist/font/mono";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { Copyright } from "lucide-react";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -44,7 +42,7 @@ export default function RootLayout({
                 </div>
               </nav>
               <div className="flex flex-col w-full h-[calc(100vh-4rem)] overflow-hidden items-center">
-                <div className="flex-grow overflow-auto px-5 w-full flex items-center justify-center">
+                <div className="flex-grow overflow-auto pl-5 w-full flex items-center justify-center">
                   {children}
                 </div>
               </div>
