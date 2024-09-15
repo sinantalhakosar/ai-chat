@@ -23,3 +23,12 @@ export type OpenAIModel =
   | "gpt-3.5-turbo-0125"
   | "gpt-3.5-turbo"
   | "gpt-3.5-turbo-1106";
+
+// GoogleModel is not exported from @ai-sdk/google, so we need to define it ourselves
+export type GoogleModel =
+  | "gemini-1.5-flash-latest"
+  | "gemini-1.5-flash"
+  | "gemini-1.5-pro-latest"
+  | "gemini-1.5-pro"
+  | "gemini-1.0-pro"
+  | "gemini-pro";
