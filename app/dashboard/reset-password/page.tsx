@@ -1,5 +1,5 @@
 import { FormMessage, Message } from "@/components/FormMessage";
-import ResetPasswordForm from "./ResetPasswordForm";
+import ResetPasswordForm from "../../../components/dashboard/reset-password/ResetPasswordForm";
 
 export default async function ResetPassword({
   searchParams,

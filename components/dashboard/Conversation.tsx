@@ -1,7 +1,7 @@
 "use client";
 
 import { useChat } from "ai/react";
-import { useDashboard } from "./DashboardContext";
+import { useDashboard } from "../../contexts/DashboardContext";
 import {
   Select,
   SelectContent,

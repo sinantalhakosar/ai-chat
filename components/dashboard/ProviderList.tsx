@@ -1,6 +1,6 @@
 import { IconButton } from "@/components/ui/iconButton";
 import { getProviderIcon, mapProviderToName } from "@/utils/mapProviderToName";
-import { useDashboard } from "./DashboardContext";
+import { useDashboard } from "../../contexts/DashboardContext";
 import { availableProviders } from "@/types/Common.types";
 
 export default function ProviderList() {

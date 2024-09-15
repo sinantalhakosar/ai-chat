@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { setCookie, getCookie, deleteCookie } from "cookies-next";
 import { useToast } from "@/hooks/use-toast";
 import { availableProviders, Provider } from "@/types/Common.types";
-import { ApiKeyList } from "./ApiKeyList";
-import { ApiKeyUpsert } from "./ApiKeyUpsert";
+import { ApiKeyList } from "../../../components/dashboard/api-keys/ApiKeyList";
+import { ApiKeyUpsert } from "../../../components/dashboard/api-keys/ApiKeyUpsert";
 import { mapProviderToApiKeyName } from "@/utils/mapProviderToName";
 
 export default function ApiKeysPage() {
@@ -78,7 +78,7 @@ export default function ApiKeysPage() {
           utilizing the Chat functionality.
           <br />
           For security purposes, your API keys are securely stored in your
-          browser's cookies and are accessible only to you.
+          browser&apos;s cookies and are accessible only to you.
           <br />
           This ensures that your sensitive information remains private and
           protected.

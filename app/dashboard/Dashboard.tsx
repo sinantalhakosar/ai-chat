@@ -1,9 +1,9 @@
 "use client";
 
-import { ChatList } from "./ChatList";
-import { DashboardProvider } from "./DashboardContext";
-import ProviderList from "./ProviderList";
-import Conversation from "./Conversation";
+import { ChatList } from "../../components/dashboard/ChatList";
+import { DashboardProvider } from "../../contexts/DashboardContext";
+import ProviderList from "../../components/dashboard/ProviderList";
+import Conversation from "../../components/dashboard/Conversation";
 
 export const Dashboard = () => {
   return (

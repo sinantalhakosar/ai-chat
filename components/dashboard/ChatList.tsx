@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
-import { useDashboard } from "./DashboardContext";
+import { useDashboard } from "../../contexts/DashboardContext";
 import { useCallback, useEffect, useState } from "react";
 import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "./Chat";
