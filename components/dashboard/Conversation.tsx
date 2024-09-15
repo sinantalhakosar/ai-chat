@@ -5,12 +5,15 @@ import { useDashboard } from "../../contexts/DashboardContext";
 import {
   availableGoogleModels,
   availableOpenAIModels,
+  MessageType,
 } from "@/types/Common.types";
 import { Textarea } from "../ui/textarea";
 import { IconButton } from "../ui/iconButton";
 import { SendIcon } from "lucide-react";
 import { ConversationInfoTab } from "./ConversationInfoTab";
 import { ConversationBubble } from "./ConversationBubble";
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Conversation() {
   const { selectedChatId, selectedProvider, setSelectedModel, selectedModel } =
@@ -41,6 +44,29 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
     ],
   });
 
+  const [chatMessages, setChatMessages] = useState<Array<MessageType>>([]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (selectedChatId) {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from('messages')
+          .select('*')
+          .eq('chat_id', selectedChatId)
+          .order('created_at', { ascending: true });
+
+        if (error) {
+          console.error('Error fetching messages:', error);
+        } else {
+          setChatMessages(data || []);
+        }
+      }
+    };
+
+    fetchMessages();
+  }, [selectedChatId]);
+
   return (
     <div className="flex flex-col w-2/3 p-2">
       <ConversationInfoTab
@@ -50,9 +76,13 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
         modelList={modelListBasedOnProvider}
       />
 
-      <div className="h-auto">
-        {messages.map((m) => (
-          <ConversationBubble key={m.id} content={m.content} type={m.role} />
+      <div className="h-auto overflow-y-auto" ref={(el) => {
+        if (el) {
+          el.scrollTop = el.scrollHeight;
+        }
+      }}>
+        {chatMessages.map((m) => (
+          <ConversationBubble key={m.id} content={m.content} type={m.sender} />
         ))}
       </div>
 
