@@ -20,7 +20,7 @@ export const Chat = ({ chat, onClick, active }: Props) => {
 
   return (
     <div
-      className={`flex flex-row justify-between cursor-pointer hover:bg-gray-800 p-4 rounded-lg gap-2 border border-red-700 ${active ? "bg-gray-600" : ""}`}
+      className={`flex flex-row justify-between cursor-pointer hover:bg-[#2f333c] p-4 rounded-2xl gap-2 ${active ? "bg-[#2f333c]" : ""}`}
       onClick={() => onClick(chat.id)}
     >
       <div className="text-sm font-medium">{truncatedMessage}</div>

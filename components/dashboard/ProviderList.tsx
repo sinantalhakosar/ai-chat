@@ -15,7 +15,7 @@ export default function ProviderList() {
         href="/dashboard/api-keys"
       >
         <IconButton icon={Plus} />
-        <span className="mt-2 text-sm font-medium">Add new</span>
+        <span className="mt-2 text-sm font-medium whitespace-nowrap">Add new</span>
       </Link>
 
       {availableProviders.map((provider) => (
@@ -28,7 +28,7 @@ export default function ProviderList() {
             icon={getProviderIcon(provider)}
             active={selectedProvider === provider}
           />
-          <span className="mt-2 text-sm font-medium">
+          <span className="mt-2 text-sm font-medium whitespace-nowrap">
             {mapProviderToName(provider)}
           </span>
         </div>

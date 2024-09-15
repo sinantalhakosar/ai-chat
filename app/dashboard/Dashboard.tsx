@@ -12,7 +12,7 @@ export const Dashboard = () => {
         <div className="w-auto">
           <ProviderList />
         </div>
-        <div className="flex-grow bg-[#202328] rounded-3xl flex gap-4">
+        <div className="flex-grow flex gap-4 w-full bg-[#202328] rounded-3xl">
           <ChatList />
           <Conversation />
         </div>

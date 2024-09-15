@@ -8,8 +8,8 @@ interface ConversationBubbleProps {
 
 export const ConversationBubble: React.FC<ConversationBubbleProps> = ({ content, type }) => {
   const bubbleClass = type !== 'user'
-    ? 'bg-[#FE8621] rounded-lg ml-2'
-    : 'bg-[#272727] text-white rounded-lg mr-2';
+    ? 'bg-[#2f333c] rounded-lg ml-2'
+    : 'bg-[#7189f5] text-white rounded-lg mr-2';
 
   const containerClass = type !== 'user'
     ? 'flex justify-start'

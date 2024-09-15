@@ -42,7 +42,7 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
   });
 
   return (
-    <div className="flex flex-col w-full m-2">
+    <div className="flex flex-col w-2/3 p-2">
       <ConversationInfoTab
         selectedProvider={selectedProvider}
         selectedModel={selectedModel}
