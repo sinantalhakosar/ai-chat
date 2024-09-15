@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import Chat from "./Chat";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -17,7 +18,7 @@ export default async function ProtectedPage() {
       <div className="w-auto">Modals</div>
       <div className="flex-grow bg-[#202328] rounded-3xl flex gap-4">
         Chat list
-        <div>Chat screen</div>
+        <Chat/>
       </div>
     </div>
   );
