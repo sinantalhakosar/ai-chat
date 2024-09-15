@@ -12,6 +12,17 @@ export const mapProviderToName = (provider: Provider): string => {
   }
 };
 
+export const mapProviderToApiKeyName = (provider: Provider): string => {
+  switch (provider) {
+    case 'openAI':
+      return "OPENAI_API_KEY";
+    case 'google':
+      return "GOOGLE_GENERATIVE_AI_API_KEY";
+    default:
+      return "Unknown Provider API Key";
+  }
+};
+
 export const getProviderIcon = (provider: Provider): LucideIcon => {
   switch (provider) {
     case 'openAI':
