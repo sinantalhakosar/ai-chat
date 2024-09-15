@@ -2,27 +2,69 @@
 
 import { useChat } from "ai/react";
 import { useDashboard } from "./DashboardContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  availableGoogleModels,
+  availableOpenAIModels,
+  Model,
+} from "@/types/Common.types";
 
 export default function Conversation() {
-  const { selectedChatId, selectedProvider } = useDashboard();
+  const { selectedChatId, selectedProvider, setSelectedModel, selectedModel } =
+    useDashboard();
+
+  const modelListBasedOnProvider =
+    selectedProvider === "openAI"
+      ? availableOpenAIModels
+      : availableGoogleModels;
 
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/chat",
     body: {
-      model: 'gemini-1.5-flash-latest',
+      model: selectedModel,
     },
     initialMessages: [
       {
         id: "welcome-message",
         role: "assistant",
-        content: `Hello! I'm using the gemini-1.5-flash-latest model. How can I assist you today?`,
+        content: `Hello! I'm using the ${selectedModel} model. How can I assist you today?`,
       },
     ],
   });
 
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto">
-      chatId: {selectedChatId}, provider: {selectedProvider}
+      <div className="mb-4">
+        <Select
+          onValueChange={(value) => {
+            setSelectedModel(value as Model);
+          }}
+          value={selectedModel || ""}
+        >
+          <SelectTrigger className="w-full flex">
+            <SelectValue placeholder="Select model" />
+          </SelectTrigger>
+          <SelectContent>
+            {modelListBasedOnProvider.map((model) => (
+              <SelectItem key={model} value={model}>
+                <div className="w-full flex">{model}</div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        chatId: {selectedChatId}, provider: {selectedProvider}, model:{" "}
+        {selectedModel}
+      </div>
+
       {messages.map((m) => (
         <div key={m.id} className="whitespace-pre-wrap">
           {m.role === "user" ? "Human: " : "AI: "}

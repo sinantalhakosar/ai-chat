@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { ChatType, OpenAIModel, Provider } from "@/types/Common.types";
+import { ChatType, Model, Provider } from "@/types/Common.types";
 
 interface DashboardContextType {
   selectedProvider: Provider;
   setSelectedProvider: (provider: Provider) => void;
-  selectedModel: OpenAIModel | null;
-  setSelectedModel: (model: OpenAIModel) => void;
-  selectedChatId: ChatType['id'] | null;
-  setSelectedChatId: (chatId: ChatType['id']) => void;
+  selectedModel: Model | null;
+  setSelectedModel: (model: Model) => void;
+  selectedChatId: ChatType["id"] | null;
+  setSelectedChatId: (chatId: ChatType["id"]) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(
@@ -16,8 +16,10 @@ const DashboardContext = createContext<DashboardContextType | undefined>(
 
 export function DashboardProvider({ children }: { children: ReactNode }) {
   const [selectedProvider, setSelectedProvider] = useState<Provider>("openAI");
-  const [selectedModel, setSelectedModel] = useState<OpenAIModel | null>(null);
-  const [selectedChatId, setSelectedChatId] = useState<ChatType['id'] | null>(null);
+  const [selectedModel, setSelectedModel] = useState<Model | null>(null);
+  const [selectedChatId, setSelectedChatId] = useState<ChatType["id"] | null>(
+    null
+  );
 
   return (
     <DashboardContext.Provider
