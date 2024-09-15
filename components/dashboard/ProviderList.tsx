@@ -4,7 +4,7 @@ import { useDashboard } from "../../contexts/DashboardContext";
 import { availableProviders } from "@/types/Common.types";
 
 export default function ProviderList() {
-    const { selectedProvider, setSelectedProvider } = useDashboard();
+  const { selectedProvider, setSelectedProvider } = useDashboard();
 
   return (
     <div className="flex flex-col items-center space-y-4">
@@ -18,7 +18,9 @@ export default function ProviderList() {
             icon={getProviderIcon(provider)}
             active={selectedProvider === provider}
           />
-          <span className="mt-2 text-sm font-medium">{mapProviderToName(provider)}</span>
+          <span className="mt-2 text-sm font-medium">
+            {mapProviderToName(provider)}
+          </span>
         </div>
       ))}
     </div>

@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export const checkProtectedClient = () => {
-    const supabase = createClient();
+  const supabase = createClient();
 
   const checkUser = async () => {
     const {

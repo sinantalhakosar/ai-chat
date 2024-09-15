@@ -1,4 +1,10 @@
-import { AlertCircle, Check, CheckCircle, CheckCircle2, Terminal } from "lucide-react";
+import {
+  AlertCircle,
+  Check,
+  CheckCircle,
+  CheckCircle2,
+  Terminal,
+} from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 export type Message =
@@ -13,21 +19,27 @@ export function FormMessage({ message }: { message: Message }) {
         <Alert variant="success">
           <CheckCircle2 className="h-4 w-4" color="green" />
           <AlertTitle>Success</AlertTitle>
-          <AlertDescription className="break-words">{message.success}</AlertDescription>
+          <AlertDescription className="break-words">
+            {message.success}
+          </AlertDescription>
         </Alert>
       )}
       {"error" in message && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" color="red" />
           <AlertTitle>Error</AlertTitle>
-          <AlertDescription className="break-words">{message.error}</AlertDescription>
+          <AlertDescription className="break-words">
+            {message.error}
+          </AlertDescription>
         </Alert>
       )}
       {"message" in message && (
         <Alert variant="default">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Info</AlertTitle>
-          <AlertDescription className="break-words">{message.message}</AlertDescription>
+          <AlertDescription className="break-words">
+            {message.message}
+          </AlertDescription>
         </Alert>
       )}
     </div>

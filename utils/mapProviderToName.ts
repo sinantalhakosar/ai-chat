@@ -3,9 +3,9 @@ import { Ban, Codesandbox, LucideIcon, ShellIcon } from "lucide-react";
 
 export const mapProviderToName = (provider: Provider): string => {
   switch (provider) {
-    case 'openAI':
+    case "openAI":
       return "OpenAI";
-    case 'google':
+    case "google":
       return "Google";
     default:
       return "Unknown Provider";
@@ -14,9 +14,9 @@ export const mapProviderToName = (provider: Provider): string => {
 
 export const mapProviderToApiKeyName = (provider: Provider): string => {
   switch (provider) {
-    case 'openAI':
+    case "openAI":
       return "OPENAI_API_KEY";
-    case 'google':
+    case "google":
       return "GOOGLE_GENERATIVE_AI_API_KEY";
     default:
       return "Unknown Provider API Key";
@@ -25,12 +25,11 @@ export const mapProviderToApiKeyName = (provider: Provider): string => {
 
 export const getProviderIcon = (provider: Provider): LucideIcon => {
   switch (provider) {
-    case 'openAI':
+    case "openAI":
       return Codesandbox;
-    case 'google':
+    case "google":
       return ShellIcon;
     default:
       return Ban;
   }
 };
-
