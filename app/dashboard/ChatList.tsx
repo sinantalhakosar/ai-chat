@@ -3,7 +3,7 @@
 import { createClient } from "@/utils/supabase/client";
 import { useDashboard } from "./DashboardContext";
 import { useCallback, useEffect, useState } from "react";
-import { ChatType } from "@/types/Common.types";
+import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "./Chat";
 
 export const ChatList = () => {
@@ -13,7 +13,7 @@ export const ChatList = () => {
   const [loading, setLoading] = useState(false);
   const [chatList, setChatList] = useState<Array<ChatType>>([]);
 
-  const getChatList = useCallback(async () => {
+  const getChatList = useCallback(async (selectedProvider: Provider) => {
     try {
       setLoading(true);
 
@@ -39,8 +39,8 @@ export const ChatList = () => {
   }, [supabase]);
 
   useEffect(() => {
-    getChatList();
-  }, [getChatList]);
+    getChatList(selectedProvider);
+  }, [getChatList, selectedProvider]);
 
   const handleChatClick = (chatId: ChatType["id"]) => {
     setSelectedChatId(chatId);
