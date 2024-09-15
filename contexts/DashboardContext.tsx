@@ -4,7 +4,7 @@ import { ChatType, Model, Provider } from "@/types/Common.types";
 interface DashboardContextType {
   selectedProvider: Provider;
   setSelectedProvider: (provider: Provider) => void;
-  selectedModel: Model | null;
+  selectedModel: Model;
   setSelectedModel: (model: Model) => void;
   selectedChatId: ChatType["id"] | null;
   setSelectedChatId: (chatId: ChatType["id"]) => void;
@@ -16,7 +16,7 @@ const DashboardContext = createContext<DashboardContextType | undefined>(
 
 export function DashboardProvider({ children }: { children: ReactNode }) {
   const [selectedProvider, setSelectedProvider] = useState<Provider>("openAI");
-  const [selectedModel, setSelectedModel] = useState<Model | null>(null);
+  const [selectedModel, setSelectedModel] = useState<Model>("gpt-4o-mini");
   const [selectedChatId, setSelectedChatId] = useState<ChatType["id"] | null>(
     null
   );
