@@ -10,6 +10,7 @@ import { Textarea } from "../ui/textarea";
 import { IconButton } from "../ui/iconButton";
 import { SendIcon } from "lucide-react";
 import { ConversationInfoTab } from "./ConversationInfoTab";
+import { ConversationBubble } from "./ConversationBubble";
 
 export default function Conversation() {
   const { selectedChatId, selectedProvider, setSelectedModel, selectedModel } =
@@ -29,7 +30,13 @@ export default function Conversation() {
       {
         id: "welcome-message",
         role: "assistant",
-        content: `Hello! I'm using the ${selectedModel} model. How can I assist you today?`,
+        content: `Hello! I'm using the ${selectedModel} model. How can I assist you today? \nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. `,
+      },
+      {
+        id: "welcome-message-user",
+        role: "user",
+        content: `Hello there! Nice to meet you! Let's start the conversation! \nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
       },
     ],
   });
@@ -44,15 +51,8 @@ export default function Conversation() {
       />
 
       <div className="h-auto">
-        <div>
-          chatId: {selectedChatId}, provider: {selectedProvider}, model:{" "}
-          {selectedModel}
-        </div>
         {messages.map((m) => (
-          <div key={m.id} className="whitespace-pre-wrap">
-            {m.role === "user" ? "Human: " : "AI: "}
-            {m.content}
-          </div>
+          <ConversationBubble key={m.id} content={m.content} type={m.role} />
         ))}
       </div>
 
