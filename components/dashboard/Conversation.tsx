@@ -3,23 +3,13 @@
 import { useChat } from "ai/react";
 import { useDashboard } from "../../contexts/DashboardContext";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   availableGoogleModels,
   availableOpenAIModels,
-  Model,
 } from "@/types/Common.types";
-import { Input } from "../ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { IconButton } from "../ui/iconButton";
 import { SendIcon } from "lucide-react";
+import { ConversationInfoTab } from "./ConversationInfoTab";
 
 export default function Conversation() {
   const { selectedChatId, selectedProvider, setSelectedModel, selectedModel } =
@@ -46,25 +36,12 @@ export default function Conversation() {
 
   return (
     <div className="flex flex-col w-full m-2">
-      <div className="mb-4 w-1/3 ml-auto mt-2">
-        <Select
-          onValueChange={(value) => {
-            setSelectedModel(value as Model);
-          }}
-          value={selectedModel || ""}
-        >
-          <SelectTrigger className="w-full flex">
-            <SelectValue placeholder="Select model" />
-          </SelectTrigger>
-          <SelectContent>
-            {modelListBasedOnProvider.map((model) => (
-              <SelectItem key={model} value={model}>
-                <div className="w-full flex">{model}</div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <ConversationInfoTab
+        selectedProvider={selectedProvider}
+        selectedModel={selectedModel}
+        setSelectedModel={setSelectedModel}
+        modelList={modelListBasedOnProvider}
+      />
 
       <div className="h-auto">
         <div>
