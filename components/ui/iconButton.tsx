@@ -1,0 +1,33 @@
+"use client";
+
+import { Button, ButtonProps } from "./button";
+import { LucideIcon } from "lucide-react";
+
+interface Props extends ButtonProps {
+  icon: LucideIcon;
+  text?: string;
+  active?: boolean;
+  onClick?: () => void;
+}
+
+export const IconButton = ({ icon: Icon, active, onClick }: Omit<Props, 'text'>) => {
+  return (
+    <Button
+      variant="icon"
+      size="icon"
+      className={active ? "bg-[#2f333c]" : "hover:bg-[#2f333c]"}
+      onClick={onClick}
+    >
+      <Icon className="h-6 w-6" />
+    </Button>
+  );
+};
+
+export const IconButtonWithText = ({ icon: Icon, active, text, onClick }: Props) => {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <IconButton icon={Icon} active={active} onClick={onClick} />
+      {text && <p className="text-xs">{text}</p>}
+    </div>
+  );
+};
