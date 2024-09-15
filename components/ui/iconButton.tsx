@@ -14,7 +14,6 @@ export const IconButton = ({
   icon: Icon,
   active,
   onClick,
-  size,
 }: Omit<Props, "text">) => {
   return (
     <Button
