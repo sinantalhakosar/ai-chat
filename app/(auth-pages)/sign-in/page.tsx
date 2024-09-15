@@ -62,10 +62,10 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
                   <FormLabel>Email address</FormLabel>
                   <FormControl>
                     <Input
+                      {...field}
                       type="text"
                       placeholder="you@example.com"
                       autoComplete="email"
-                      {...field}
                     />
                   </FormControl>
                   <UiFormMessage />

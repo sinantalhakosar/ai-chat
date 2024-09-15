@@ -14,6 +14,12 @@ import {
   availableOpenAIModels,
   Model,
 } from "@/types/Common.types";
+import { Input } from "../ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { IconButton } from "../ui/iconButton";
+import { SendIcon } from "lucide-react";
 
 export default function Conversation() {
   const { selectedChatId, selectedProvider, setSelectedModel, selectedModel } =
@@ -39,8 +45,8 @@ export default function Conversation() {
   });
 
   return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto">
-      <div className="mb-4">
+    <div className="flex flex-col w-full m-2">
+      <div className="mb-4 w-1/3 ml-auto mt-2">
         <Select
           onValueChange={(value) => {
             setSelectedModel(value as Model);
@@ -60,24 +66,37 @@ export default function Conversation() {
         </Select>
       </div>
 
-      <div>
-        chatId: {selectedChatId}, provider: {selectedProvider}, model:{" "}
-        {selectedModel}
+      <div className="h-auto">
+        <div>
+          chatId: {selectedChatId}, provider: {selectedProvider}, model:{" "}
+          {selectedModel}
+        </div>
+        {messages.map((m) => (
+          <div key={m.id} className="whitespace-pre-wrap">
+            {m.role === "user" ? "Human: " : "AI: "}
+            {m.content}
+          </div>
+        ))}
       </div>
 
-      {messages.map((m) => (
-        <div key={m.id} className="whitespace-pre-wrap">
-          {m.role === "user" ? "Human: " : "AI: "}
-          {m.content}
+      <form onSubmit={handleSubmit} className="mt-auto flex justify-center">
+        <div className="relative w-3/4 mb-8">
+          <div className="relative w-full">
+            <div className="relative">
+              <div className="relative">
+                <Textarea
+                  className="w-full pr-20 resize-none"
+                  value={input}
+                  placeholder="Say something..."
+                  onChange={handleInputChange}
+                />
+                <div className="absolute bottom-2 right-2">
+                  <IconButton type="submit" icon={SendIcon} size="sm" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      ))}
-      <form onSubmit={handleSubmit}>
-        <input
-          className="w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
-          value={input}
-          placeholder="Say something..."
-          onChange={handleInputChange}
-        />
       </form>
     </div>
   );

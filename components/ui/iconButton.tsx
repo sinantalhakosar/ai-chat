@@ -14,6 +14,7 @@ export const IconButton = ({
   icon: Icon,
   active,
   onClick,
+  ...rest
 }: Omit<Props, "text">) => {
   return (
     <Button
@@ -21,6 +22,7 @@ export const IconButton = ({
       size="icon"
       className={active ? "bg-[#2f333c]" : "hover:bg-[#2f333c]"}
       onClick={onClick}
+      {...rest}
     >
       <Icon className="h-5 w-5" />
     </Button>
