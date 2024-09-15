@@ -10,7 +10,12 @@ interface Props extends ButtonProps {
   onClick?: () => void;
 }
 
-export const IconButton = ({ icon: Icon, active, onClick }: Omit<Props, 'text'>) => {
+export const IconButton = ({
+  icon: Icon,
+  active,
+  onClick,
+  size,
+}: Omit<Props, "text">) => {
   return (
     <Button
       variant="icon"
@@ -18,12 +23,17 @@ export const IconButton = ({ icon: Icon, active, onClick }: Omit<Props, 'text'>)
       className={active ? "bg-[#2f333c]" : "hover:bg-[#2f333c]"}
       onClick={onClick}
     >
-      <Icon className="h-6 w-6" />
+      <Icon className="h-5 w-5" />
     </Button>
   );
 };
 
-export const IconButtonWithText = ({ icon: Icon, active, text, onClick }: Props) => {
+export const IconButtonWithText = ({
+  icon: Icon,
+  active,
+  text,
+  onClick,
+}: Props) => {
   return (
     <div className="flex flex-col items-center gap-2">
       <IconButton icon={Icon} active={active} onClick={onClick} />

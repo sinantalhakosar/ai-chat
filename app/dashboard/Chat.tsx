@@ -10,12 +10,12 @@ export default function Chat() {
       model: ModelType.GEMINI_1_5_FLASH,
     },
     initialMessages: [
-        {
-          id: "welcome-message",
-          role: "assistant",
-          content: `Hello! I'm using the ${ModelType.GEMINI_1_5_FLASH} model. How can I assist you today?`,
-        },
-      ],
+      {
+        id: "welcome-message",
+        role: "assistant",
+        content: `Hello! I'm using the ${ModelType.GEMINI_1_5_FLASH} model. How can I assist you today?`,
+      },
+    ],
   });
 
   return (
