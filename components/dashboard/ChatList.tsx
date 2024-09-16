@@ -62,6 +62,10 @@ export const ChatList = () => {
     }
   };
 
+  const handleChatNameChange = async () => {
+    await getChatList(selectedProvider);
+  };
+
   return (
     <div className="flex flex-col h-full overflow-y-scroll px-6 py-4 w-1/4 gap-2 border-r border-r-foreground/10">
       <div className="px-2 flex justify-between items-center">
@@ -96,6 +100,7 @@ export const ChatList = () => {
               chat={chat}
               onClick={handleChatClick}
               active={chat.id === selectedChatId}
+              onNameChange={handleChatNameChange}
             />
           ))
         ) : (
