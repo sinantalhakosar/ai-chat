@@ -4,7 +4,7 @@ import { Message, useChat } from "ai/react";
 import { useDashboard } from "../../contexts/DashboardContext";
 import { Textarea } from "../ui/textarea";
 import { IconButton } from "../ui/iconButton";
-import { SendIcon } from "lucide-react";
+import { SendIcon, Square, StopCircle } from "lucide-react";
 import { ConversationInfoTab } from "./ConversationInfoTab";
 import { ConversationBubble } from "./ConversationBubble";
 import { FormEvent, useEffect, useState } from "react";
@@ -24,20 +24,29 @@ export default function Conversation() {
     selectedModel,
   } = useDashboard();
 
-  const { messages, input, handleInputChange, handleSubmit, setMessages } =
-    useChat({
-      api: "/api/chat",
-      body: {
-        model: selectedModel,
-      },
-      onFinish: async (message, options) => {
-        // selectedChatId is buggy
-        if (selectedChatId) {
-          await createMessage(selectedChatId, message.content, "assistant");
-        }
-      },
-    });
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    setMessages,
+    isLoading: isResponseLoading,
+    stop,
+  } = useChat({
+    api: "/api/chat",
+    body: {
+      model: selectedModel,
+    },
+    onFinish: async (message, options) => {
+      if (selectedChatId) {
+        await createMessage(selectedChatId, message.content, "assistant");
+      } else if (tempChatId) {
+        await createMessage(tempChatId, message.content, "assistant");
+      }
+    },
+  });
 
+  let tempChatId = selectedChatId;
   const [loading, setLoading] = useState(false);
 
   const modelListBasedOnProvider = getProviderModalList(selectedProvider);
@@ -72,6 +81,7 @@ export default function Conversation() {
     let chatId = selectedChatId;
     if (!chatId) {
       const data = await createChat(selectedProvider);
+      tempChatId = data.id;
       setSelectedChatId(data.id);
       chatId = data.id;
     }
@@ -139,12 +149,16 @@ export default function Conversation() {
                   }}
                 />
                 <div className="absolute bottom-2 right-2">
-                  <IconButton
-                    type="submit"
-                    icon={SendIcon}
-                    size="sm"
-                    disabled={loading}
-                  />
+                  {isResponseLoading ? (
+                    <IconButton type="submit" icon={Square} size="sm" onClick={() => stop()}/>
+                  ) : (
+                    <IconButton
+                      type="submit"
+                      icon={SendIcon}
+                      size="sm"
+                      disabled={loading}
+                    />
+                  )}
                 </div>
               </div>
             </div>
