@@ -7,9 +7,11 @@ import { IconButton } from "../ui/iconButton";
 import { SendIcon } from "lucide-react";
 import { ConversationInfoTab } from "./ConversationInfoTab";
 import { ConversationBubble } from "./ConversationBubble";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import { fetchMessages } from "@/utils/supabase/fetchMessages";
+import { createMessage } from "@/utils/supabase/createMessage";
+import { createChat } from "@/utils/supabase/createChat";
 
 export default function Conversation() {
   const {
@@ -48,19 +50,21 @@ export default function Conversation() {
     loadMessages();
   }, [selectedChatId, setMessages]);
 
-  // const handleMessageSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   let chatId = selectedChatId;
+  const handleMessageSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    let chatId = selectedChatId;
+    if (!chatId) {
+      const data = await createChat(selectedProvider);
+      setSelectedChatId(data.id);
+      chatId = data.id;
+    }
 
-  //   if (!chatId) {
-  //     const data = await createChat(selectedProvider);
-  //     setSelectedChatId(data.id);
-  //     chatId = data.id;
-  //   }
+    await handleSubmit(e);
 
-  //   await createMessage(chatId, input, "user");
-  //   handleSubmit(e);
-  // };
+    const userMessage = input;
+    await createMessage(chatId, userMessage, "user");
+  };
 
   return (
     <div className="flex flex-col w-full p-2">
@@ -84,7 +88,7 @@ export default function Conversation() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-auto flex justify-center">
+      <form onSubmit={handleMessageSubmit} className="mt-auto flex justify-center">
         <div className="relative w-3/4 mb-2">
           <div className="relative w-full">
             <div className="relative">
