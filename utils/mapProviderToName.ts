@@ -7,6 +7,8 @@ export const mapProviderToName = (provider: Provider): string => {
       return "OpenAI";
     case "google":
       return "Google";
+    case "anthropic":
+      return "Anthropic";
     default:
       return "Unknown Provider";
   }
@@ -18,6 +20,8 @@ export const mapProviderToApiKeyName = (provider: Provider): string => {
       return "OPENAI_API_KEY";
     case "google":
       return "GOOGLE_GENERATIVE_AI_API_KEY";
+    case "anthropic":
+      return "ANTHROPIC_API_KEY";
     default:
       return "Unknown Provider API Key";
   }
@@ -29,6 +33,8 @@ export const getProviderIcon = (provider: Provider): LucideIcon => {
       return Codesandbox;
     case "google":
       return ShellIcon;
+    case "anthropic":
+      return Ban;
     default:
       return Ban;
   }

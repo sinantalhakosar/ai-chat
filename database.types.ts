@@ -84,7 +84,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      providers: "openAI" | "google"
+      providers: "openAI" | "google" | "anthropic"
       sender: "user" | "assistant"
     }
     CompositeTypes: {

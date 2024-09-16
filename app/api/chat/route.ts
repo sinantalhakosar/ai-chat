@@ -1,6 +1,8 @@
 import { streamText, convertToCoreMessages } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createAnthropic } from "@ai-sdk/anthropic";
+import { extractCookieApiKeys } from "@/utils/extractCookieApiKeys";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -10,11 +12,7 @@ export async function POST(req: Request) {
 
   // Read API keys from cookies
   const cookieHeader = req.headers.get("cookie");
-  const openAIApiKey = getCookieValue(cookieHeader, "OPENAI_API_KEY");
-  const googleApiKey = getCookieValue(
-    cookieHeader,
-    "GOOGLE_GENERATIVE_AI_API_KEY"
-  );
+  const { openAIApiKey, googleApiKey, anthropicApiKey } = extractCookieApiKeys(cookieHeader);
 
   let result;
 
@@ -57,19 +55,24 @@ export async function POST(req: Request) {
         messages: convertToCoreMessages(messages),
       });
       break;
+    case "claude-3-5-sonnet-20240620":
+    case "claude-3-opus-20240229":
+    case "claude-3-sonnet-20240229":
+    case "claude-3-haiku-20240307":
+      if (!anthropicApiKey) {
+        throw new Error("Anthropic API key not found");
+      }
+
+      const anthropic = createAnthropic({ apiKey: anthropicApiKey });
+
+      result = await streamText({
+        model: anthropic(model),
+        messages: convertToCoreMessages(messages),
+      });
+      break;
     default:
       throw new Error(`Unsupported model: ${model}`);
   }
 
   return result.toDataStreamResponse();
-}
-
-// Helper function to get cookie value
-function getCookieValue(
-  cookieHeader: string | null,
-  name: string
-): string | undefined {
-  if (!cookieHeader) return undefined;
-  const match = cookieHeader.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return match ? match[2] : undefined;
 }

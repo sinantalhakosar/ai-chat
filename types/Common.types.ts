@@ -6,7 +6,11 @@ export type ChatType = Database["public"]["Tables"]["chats"]["Row"];
 
 export type MessageType = Database["public"]["Tables"]["messages"]["Row"];
 
-export const availableProviders: Array<Provider> = ["openAI", "google"];
+export const availableProviders: Array<Provider> = [
+  "openAI",
+  "google",
+  "anthropic",
+];
 
 // OpenAIChatModelId is not exported from @ai-sdk/openai, so we need to define it ourselves
 export type OpenAIModel =
@@ -37,7 +41,13 @@ export type GoogleModel =
   | "gemini-1.0-pro"
   | "gemini-pro";
 
-export type Model = OpenAIModel | GoogleModel;
+export type AnthropicModel =
+  | "claude-3-5-sonnet-20240620"
+  | "claude-3-opus-20240229"
+  | "claude-3-sonnet-20240229"
+  | "claude-3-haiku-20240307";
+
+export type Model = OpenAIModel | GoogleModel | AnthropicModel;
 
 export const availableOpenAIModels: Array<OpenAIModel> = [
   "o1-preview",
@@ -66,4 +76,11 @@ export const availableGoogleModels: Array<GoogleModel> = [
   "gemini-1.5-pro",
   "gemini-1.0-pro",
   "gemini-pro",
+];
+
+export const availableAnthropicModels: Array<AnthropicModel> = [
+  "claude-3-5-sonnet-20240620",
+  "claude-3-opus-20240229",
+  "claude-3-sonnet-20240229",
+  "claude-3-haiku-20240307",
 ];

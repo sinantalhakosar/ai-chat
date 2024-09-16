@@ -3,6 +3,7 @@
 import { useChat } from "ai/react";
 import { useDashboard } from "../../contexts/DashboardContext";
 import {
+  availableAnthropicModels,
   availableGoogleModels,
   availableOpenAIModels,
   MessageType,
@@ -14,15 +15,13 @@ import { ConversationInfoTab } from "./ConversationInfoTab";
 import { ConversationBubble } from "./ConversationBubble";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { getProviderModalList } from "@/utils/getProviderModalList";
 
 export default function Conversation() {
   const { selectedChatId, selectedProvider, setSelectedModel, selectedModel } =
     useDashboard();
 
-  const modelListBasedOnProvider =
-    selectedProvider === "openAI"
-      ? availableOpenAIModels
-      : availableGoogleModels;
+  const modelListBasedOnProvider = getProviderModalList(selectedProvider);
 
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/chat",
@@ -51,13 +50,13 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
       if (selectedChatId) {
         const supabase = createClient();
         const { data, error } = await supabase
-          .from('messages')
-          .select('*')
-          .eq('chat_id', selectedChatId)
-          .order('created_at', { ascending: true });
+          .from("messages")
+          .select("*")
+          .eq("chat_id", selectedChatId)
+          .order("created_at", { ascending: true });
 
         if (error) {
-          console.error('Error fetching messages:', error);
+          console.error("Error fetching messages:", error);
         } else {
           setChatMessages(data || []);
         }
@@ -67,8 +66,17 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
     fetchMessages();
   }, [selectedChatId]);
 
+  // implement it in better place
+  if (!selectedChatId) {
+    return (
+      <div className="flex flex-col w-3/4 p-2">
+        No chat selected, new chat will appear here
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col w-2/3 p-2">
+    <div className="flex flex-col w-full p-2">
       <ConversationInfoTab
         selectedProvider={selectedProvider}
         selectedModel={selectedModel}
@@ -76,18 +84,21 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
         modelList={modelListBasedOnProvider}
       />
 
-      <div className="h-auto overflow-y-auto" ref={(el) => {
-        if (el) {
-          el.scrollTop = el.scrollHeight;
-        }
-      }}>
+      <div
+        className="h-auto overflow-y-auto"
+        ref={(el) => {
+          if (el) {
+            el.scrollTop = el.scrollHeight;
+          }
+        }}
+      >
         {chatMessages.map((m) => (
           <ConversationBubble key={m.id} content={m.content} type={m.sender} />
         ))}
       </div>
 
       <form onSubmit={handleSubmit} className="mt-auto flex justify-center">
-        <div className="relative w-3/4 mb-8">
+        <div className="relative w-3/4 mb-2">
           <div className="relative w-full">
             <div className="relative">
               <div className="relative">
