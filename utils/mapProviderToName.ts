@@ -39,3 +39,14 @@ export const getProviderIcon = (provider: Provider): LucideIcon => {
       return Ban;
   }
 };
+
+export const getProviderImage = (provider: Provider): string => {
+  switch (provider) {
+    case "openAI":
+      return "/images/openai.svg";
+    case "google":
+      return "/images/gemini.svg";
+    case "anthropic":
+      return "/images/anthropic.svg";
+  }
+};

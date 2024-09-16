@@ -82,21 +82,25 @@ export const ChatList = () => {
       </div>
 
       <div className="flex flex-col gap-2">
-        {loading
-          ? times(6).map((index) => (
-              <Skeleton
-                key={index}
-                className="w-full h-[50px] rounded-full bg-[#2f333c]"
-              />
-            ))
-          : chatList.map((chat) => (
-              <Chat
-                key={chat.id}
-                chat={chat}
-                onClick={handleChatClick}
-                active={chat.id === selectedChatId}
-              />
-            ))}
+        {loading ? (
+          times(6).map((index) => (
+            <Skeleton
+              key={index}
+              className="w-full h-[50px] rounded-full bg-[#2f333c]"
+            />
+          ))
+        ) : chatList.length > 0 ? (
+          chatList.map((chat) => (
+            <Chat
+              key={chat.id}
+              chat={chat}
+              onClick={handleChatClick}
+              active={chat.id === selectedChatId}
+            />
+          ))
+        ) : (
+          <h2>No chat history found</h2>
+        )}
       </div>
     </div>
   );

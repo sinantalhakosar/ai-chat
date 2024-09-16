@@ -24,8 +24,8 @@ import { deleteLastMessageFromChat } from "@/utils/supabase/deleteLastMessageFro
 import { useToast } from "@/hooks/use-toast";
 
 export default function Conversation() {
-  const {toast} = useToast();
-  
+  const { toast } = useToast();
+
   const {
     selectedChatId,
     setSelectedChatId,
@@ -177,18 +177,11 @@ export default function Conversation() {
               </div>
             ))}
       </div>
+      {/* bug: align bottom */}
       {error && (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mt-auto">
           <MessageCircleWarning className="w-4 h-4 mr-2 text-red-500" />
-          <h1 className="text-red-500">
-            Error generating the response. Regenerate?
-          </h1>
-          <IconButton
-            icon={RefreshCcw}
-            disableHover
-            onClick={handleRegenerateClick}
-            className="text-red-500"
-          />
+          <h1 className="text-red-500">{error.message}</h1>
         </div>
       )}
 
