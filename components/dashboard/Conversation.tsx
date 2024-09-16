@@ -24,13 +24,24 @@ export default function Conversation() {
 
   const modelListBasedOnProvider = getProviderModalList(selectedProvider);
 
-  const { messages, input, handleInputChange, handleSubmit, setMessages } =
-    useChat({
-      api: "/api/chat",
-      body: {
-        model: selectedModel,
-      },
-    });
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    setMessages,
+  } = useChat({
+    api: "/api/chat",
+    body: {
+      model: selectedModel,
+    },
+    onFinish: async (message, options) => {
+      // selectedChatId is buggy
+      if (selectedChatId) {
+        await createMessage(selectedChatId, message.content, "assistant");
+      }
+    },
+  });
 
   useEffect(() => {
     const loadMessages = async () => {
