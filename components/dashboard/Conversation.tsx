@@ -7,11 +7,13 @@ import { IconButton } from "../ui/iconButton";
 import { SendIcon } from "lucide-react";
 import { ConversationInfoTab } from "./ConversationInfoTab";
 import { ConversationBubble } from "./ConversationBubble";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import { fetchMessages } from "@/utils/supabase/fetchMessages";
 import { createMessage } from "@/utils/supabase/createMessage";
 import { createChat } from "@/utils/supabase/createChat";
+import { Skeleton } from "../ui/skeleton";
+import { times } from "lodash";
 
 export default function Conversation() {
   const {
@@ -22,29 +24,27 @@ export default function Conversation() {
     selectedModel,
   } = useDashboard();
 
-  const modelListBasedOnProvider = getProviderModalList(selectedProvider);
+  const { messages, input, handleInputChange, handleSubmit, setMessages } =
+    useChat({
+      api: "/api/chat",
+      body: {
+        model: selectedModel,
+      },
+      onFinish: async (message, options) => {
+        // selectedChatId is buggy
+        if (selectedChatId) {
+          await createMessage(selectedChatId, message.content, "assistant");
+        }
+      },
+    });
 
-  const {
-    messages,
-    input,
-    handleInputChange,
-    handleSubmit,
-    setMessages,
-  } = useChat({
-    api: "/api/chat",
-    body: {
-      model: selectedModel,
-    },
-    onFinish: async (message, options) => {
-      // selectedChatId is buggy
-      if (selectedChatId) {
-        await createMessage(selectedChatId, message.content, "assistant");
-      }
-    },
-  });
+  const [loading, setLoading] = useState(false);
+
+  const modelListBasedOnProvider = getProviderModalList(selectedProvider);
 
   useEffect(() => {
     const loadMessages = async () => {
+      setLoading(true);
       const messages = await fetchMessages(selectedChatId);
       const fetchedMessages = messages.map((m) => {
         const message: Message = {
@@ -59,6 +59,7 @@ export default function Conversation() {
     };
 
     loadMessages();
+    setLoading(false);
   }, [selectedChatId, setMessages]);
 
   const handleMessageSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -98,9 +99,20 @@ export default function Conversation() {
           }
         }}
       >
-        {messages.map((m) => (
-          <ConversationBubble key={m.id} content={m.content} type={m.role} />
-        ))}
+        {loading
+          ? times(8).map((i) => (
+              <Skeleton
+                key={i}
+                className={`w-[400px] h-[50px] rounded-full bg-[#2f333c] ${i % 2 === 0 ? "ml-auto" : ""}`}
+              />
+            ))
+          : messages.map((m) => (
+              <ConversationBubble
+                key={m.id}
+                content={m.content}
+                type={m.role}
+              />
+            ))}
       </div>
 
       <form
@@ -119,11 +131,10 @@ export default function Conversation() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
-                      if (input.trim() !== "") {
-                        handleMessageSubmit(
-                          e as unknown as FormEvent<HTMLFormElement>
-                        );
-                      }
+
+                      handleMessageSubmit(
+                        e as unknown as FormEvent<HTMLFormElement>
+                      );
                     }
                   }}
                 />
@@ -132,7 +143,7 @@ export default function Conversation() {
                     type="submit"
                     icon={SendIcon}
                     size="sm"
-                    disabled={input.trim() === ""}
+                    disabled={loading}
                   />
                 </div>
               </div>

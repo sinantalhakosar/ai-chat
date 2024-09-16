@@ -10,6 +10,8 @@ import { IconButton } from "../ui/iconButton";
 import { fetchChatList } from "@/utils/supabase/fetchChatList";
 import { createChat } from "@/utils/supabase/createChat";
 import { useToast } from "@/hooks/use-toast";
+import { times } from "lodash";
+import { Skeleton } from "../ui/skeleton";
 
 export const ChatList = () => {
   const { toast } = useToast();
@@ -78,15 +80,23 @@ export const ChatList = () => {
           <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
       </div>
+
       <div className="flex flex-col gap-2">
-        {chatList.map((chat) => (
-          <Chat
-            key={chat.id}
-            chat={chat}
-            onClick={handleChatClick}
-            active={chat.id === selectedChatId}
-          />
-        ))}
+        {loading
+          ? times(6).map((index) => (
+              <Skeleton
+                key={index}
+                className="w-full h-[50px] rounded-full bg-[#2f333c]"
+              />
+            ))
+          : chatList.map((chat) => (
+              <Chat
+                key={chat.id}
+                chat={chat}
+                onClick={handleChatClick}
+                active={chat.id === selectedChatId}
+              />
+            ))}
       </div>
     </div>
   );
