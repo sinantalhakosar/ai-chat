@@ -1,16 +1,19 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
 import { useDashboard } from "../../contexts/DashboardContext";
 import { useCallback, useEffect, useState } from "react";
 import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "./Chat";
 import { Input } from "../ui/input";
-import { Plus, Search, SquarePen } from "lucide-react";
+import { Search, SquarePen } from "lucide-react";
 import { IconButton } from "../ui/iconButton";
+import { fetchChatList } from "@/utils/supabase/fetchChatList";
+import { createChat } from "@/utils/supabase/createChat";
+import { useToast } from "@/hooks/use-toast";
 
 export const ChatList = () => {
-  const supabase = createClient();
+  const { toast } = useToast();
+
   const { selectedProvider, selectedChatId, setSelectedChatId } =
     useDashboard();
 
@@ -22,27 +25,20 @@ export const ChatList = () => {
       try {
         setLoading(true);
 
-        const { data, error, status } = await supabase
-          .from("chats")
-          .select("*")
-          .eq("provider", selectedProvider)
-          .order("created_at", { ascending: false })
-          .returns<Array<ChatType>>();
-
-        if (error && status !== 406) {
-          throw error;
-        }
-
-        if (data) {
-          setChatList(data);
-        }
+        const data = await fetchChatList(selectedProvider);
+        setChatList(data);
       } catch (error) {
-        alert("Error loading user data!");
+        console.error("Error loading chat list:", error);
+        toast({
+          title: "Error loading chat list",
+          description: "Please try again later",
+          variant: "destructive",
+        });
       } finally {
         setLoading(false);
       }
     },
-    [supabase]
+    [toast]
   );
 
   useEffect(() => {
@@ -55,29 +51,9 @@ export const ChatList = () => {
 
   const handleNewChatClick = async () => {
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      const { data, error } = await supabase
-        .from("chats")
-        .insert([
-          {
-            user_id: user?.id,
-            provider: selectedProvider,
-            name: "New Chat",
-            updated_at: new Date().toISOString(),
-          },
-        ])
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      if (data) {
-        setChatList((prevList) => [data, ...prevList]);
-        setSelectedChatId(data.id);
-      }
+      const data = await createChat(selectedProvider);
+      setChatList((prevList) => [data, ...prevList]);
+      setSelectedChatId(data.id);
     } catch (error) {
       console.error("Error creating new chat:", error);
       alert("Failed to create new chat");
