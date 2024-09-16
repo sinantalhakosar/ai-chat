@@ -52,7 +52,11 @@ export default function Conversation() {
 
   const handleMessageSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
+    if (input.trim() === "") {
+      return;
+    }
+
     let chatId = selectedChatId;
     if (!chatId) {
       const data = await createChat(selectedProvider);
@@ -88,7 +92,10 @@ export default function Conversation() {
         ))}
       </div>
 
-      <form onSubmit={handleMessageSubmit} className="mt-auto flex justify-center">
+      <form
+        onSubmit={(e) => handleMessageSubmit(e)}
+        className="mt-auto flex justify-center"
+      >
         <div className="relative w-3/4 mb-2">
           <div className="relative w-full">
             <div className="relative">
@@ -98,9 +105,24 @@ export default function Conversation() {
                   value={input}
                   placeholder="Say something..."
                   onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      if (input.trim() !== "") {
+                        handleMessageSubmit(
+                          e as unknown as FormEvent<HTMLFormElement>
+                        );
+                      }
+                    }
+                  }}
                 />
                 <div className="absolute bottom-2 right-2">
-                  <IconButton type="submit" icon={SendIcon} size="sm" />
+                  <IconButton
+                    type="submit"
+                    icon={SendIcon}
+                    size="sm"
+                    disabled={input.trim() === ""}
+                  />
                 </div>
               </div>
             </div>
