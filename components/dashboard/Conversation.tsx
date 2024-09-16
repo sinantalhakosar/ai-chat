@@ -37,6 +37,7 @@ export default function Conversation() {
     body: {
       model: selectedModel,
     },
+    streamProtocol: "text",
     onFinish: async (message, options) => {
       if (selectedChatId) {
         await createMessage(selectedChatId, message.content, "assistant");
@@ -121,6 +122,7 @@ export default function Conversation() {
                 key={m.id}
                 content={m.content}
                 type={m.role}
+                isTyping={m.role === 'assistant' && m.id === messages[messages.length - 1].id}
               />
             ))}
       </div>

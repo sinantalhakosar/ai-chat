@@ -74,5 +74,5 @@ export async function POST(req: Request) {
       throw new Error(`Unsupported model: ${model}`);
   }
 
-  return result.toDataStreamResponse();
+  return result.toTextStreamResponse();
 }
