@@ -6,7 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "./Chat";
 import { Input } from "../ui/input";
-import { Search } from "lucide-react";
+import { Plus, Search, SquarePen } from "lucide-react";
+import { IconButton } from "../ui/iconButton";
 
 export const ChatList = () => {
   const supabase = createClient();
@@ -52,8 +53,44 @@ export const ChatList = () => {
     setSelectedChatId(chatId);
   };
 
+  const handleNewChatClick = async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      const { data, error } = await supabase
+        .from("chats")
+        .insert([
+          {
+            user_id: user?.id,
+            provider: selectedProvider,
+            name: "New Chat",
+            updated_at: new Date().toISOString(),
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        setChatList((prevList) => [data, ...prevList]);
+        setSelectedChatId(data.id);
+      }
+    } catch (error) {
+      console.error("Error creating new chat:", error);
+      alert("Failed to create new chat");
+    }
+  };
+
   return (
-    <div className="flex flex-col h-full overflow-y-scroll p-6 w-1/3">
+    <div className="flex flex-col h-full overflow-y-scroll px-6 py-4 w-1/4 gap-2 border-r border-r-foreground/10">
+      <div className="px-2 flex justify-between items-center">
+        <h1>Chat list</h1>
+        <IconButton icon={SquarePen} onClick={handleNewChatClick} />
+      </div>
+
       <div className="mb-4">
         <div className="relative">
           <Input
