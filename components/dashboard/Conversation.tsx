@@ -4,7 +4,13 @@ import { Message, useChat } from "ai/react";
 import { useDashboard } from "../../contexts/DashboardContext";
 import { Textarea } from "../ui/textarea";
 import { IconButton } from "../ui/iconButton";
-import { SendIcon, Square, StopCircle } from "lucide-react";
+import {
+  Copy,
+  MessageCircleWarning,
+  RefreshCcw,
+  SendIcon,
+  Square,
+} from "lucide-react";
 import { ConversationInfoTab } from "./ConversationInfoTab";
 import { ConversationBubble } from "./ConversationBubble";
 import { FormEvent, useEffect, useState } from "react";
@@ -14,8 +20,12 @@ import { createMessage } from "@/utils/supabase/createMessage";
 import { createChat } from "@/utils/supabase/createChat";
 import { Skeleton } from "../ui/skeleton";
 import { times } from "lodash";
+import { deleteLastMessageFromChat } from "@/utils/supabase/deleteLastMessageFromChat";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Conversation() {
+  const {toast} = useToast();
+  
   const {
     selectedChatId,
     setSelectedChatId,
@@ -32,6 +42,8 @@ export default function Conversation() {
     setMessages,
     isLoading: isResponseLoading,
     stop,
+    error,
+    reload,
   } = useChat({
     api: "/api/chat",
     body: {
@@ -93,6 +105,24 @@ export default function Conversation() {
     await createMessage(chatId, userMessage, "user");
   };
 
+  const handleCopyClick = (content: string) => {
+    navigator.clipboard.writeText(content);
+    toast({
+      title: "Copied",
+      description: "Text copied to clipboard",
+      variant: "default",
+    });
+  };
+
+  const handleRegenerateClick = async () => {
+    if (selectedChatId) {
+      const status = await deleteLastMessageFromChat(selectedChatId);
+      if (status) {
+        reload();
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col w-full p-2">
       <ConversationInfoTab
@@ -118,14 +148,49 @@ export default function Conversation() {
               />
             ))
           : messages.map((m) => (
-              <ConversationBubble
-                key={m.id}
-                content={m.content}
-                type={m.role}
-                isTyping={m.role === 'assistant' && m.id === messages[messages.length - 1].id}
-              />
+              <div key={m.id} className="flex flex-col mb-4">
+                <ConversationBubble
+                  content={m.content}
+                  type={m.role}
+                  isTyping={
+                    m.role === "assistant" &&
+                    m.id === messages[messages.length - 1].id &&
+                    isResponseLoading
+                  }
+                />
+                {m.role === "assistant" && (
+                  <div>
+                    {m.id === messages[messages.length - 1].id && (
+                      <IconButton
+                        icon={RefreshCcw}
+                        disableHover
+                        onClick={handleRegenerateClick}
+                      />
+                    )}
+                    <IconButton
+                      icon={Copy}
+                      disableHover
+                      onClick={() => handleCopyClick(m.content)}
+                    />
+                  </div>
+                )}
+              </div>
             ))}
       </div>
+      {error && (
+        <div className="flex items-center justify-center">
+          <MessageCircleWarning className="w-4 h-4 mr-2 text-red-500" />
+          <h1 className="text-red-500">
+            Error generating the response. Regenerate?
+          </h1>
+          <IconButton
+            icon={RefreshCcw}
+            disableHover
+            onClick={handleRegenerateClick}
+            className="text-red-500"
+          />
+        </div>
+      )}
 
       <form
         onSubmit={(e) => handleMessageSubmit(e)}
@@ -152,7 +217,12 @@ export default function Conversation() {
                 />
                 <div className="absolute bottom-2 right-2">
                   {isResponseLoading ? (
-                    <IconButton type="submit" icon={Square} size="sm" onClick={() => stop()}/>
+                    <IconButton
+                      type="submit"
+                      icon={Square}
+                      size="sm"
+                      onClick={() => stop()}
+                    />
                   ) : (
                     <IconButton
                       type="submit"

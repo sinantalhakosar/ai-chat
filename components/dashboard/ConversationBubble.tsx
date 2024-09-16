@@ -43,7 +43,7 @@ export const ConversationBubble: React.FC<ConversationBubbleProps> = ({
   }, [content, currentIndex, isTyping]);
 
   return (
-    <div className={`${containerClass} mb-4`}>
+    <div className={containerClass}>
       <div
         className={`${bubbleClass} p-3 max-w-[80%] whitespace-pre-wrap text-sm`}
       >

@@ -8,19 +8,23 @@ interface Props extends ButtonProps {
   text?: string;
   active?: boolean;
   onClick?: () => void;
+  disableHover?: boolean;
 }
 
 export const IconButton = ({
   icon: Icon,
   active,
   onClick,
+  disableHover,
   ...rest
 }: Omit<Props, "text">) => {
   return (
     <Button
       variant="icon"
       size="icon"
-      className={active ? "bg-[#2f333c]" : "hover:bg-[#2f333c]"}
+      className={
+        active ? "bg-[#2f333c]" : disableHover ? "" : "hover:bg-[#2f333c]"
+      }
       onClick={onClick}
       {...rest}
     >
