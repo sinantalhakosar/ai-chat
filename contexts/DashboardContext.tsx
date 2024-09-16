@@ -7,7 +7,7 @@ interface DashboardContextType {
   selectedModel: Model;
   setSelectedModel: (model: Model) => void;
   selectedChatId: ChatType["id"] | null;
-  setSelectedChatId: (chatId: ChatType["id"]) => void;
+  setSelectedChatId: (chatId: ChatType["id"] | null) => void;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(
