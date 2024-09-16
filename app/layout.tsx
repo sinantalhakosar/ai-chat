@@ -31,17 +31,7 @@ export default function RootLayout({
         >
           <main className="min-h-screen flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col items-center">
-              <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-                <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-                  <div className="flex gap-5 items-center font-semibold text-xl">
-                    <Link href={"/"} className="text-[#FE8621]">
-                      HOME
-                    </Link>
-                  </div>
-                  <HeaderAuth />
-                </div>
-              </nav>
-              <div className="flex flex-col w-full h-[calc(100vh-4rem)] overflow-hidden items-center">
+              <div className="flex flex-col w-full h-screen overflow-hidden items-center">
                 <div className="flex-grow overflow-auto pl-5 w-full flex items-center justify-center">
                   {children}
                 </div>
