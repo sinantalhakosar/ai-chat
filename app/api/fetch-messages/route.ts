@@ -2,13 +2,17 @@ import { MessageType } from "@/types/Common.types";
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
+// dynamic data outside of try/catch: https://stackoverflow.com/a/78010468/12527519
 export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const chatId = searchParams.get("chatId");
+  const { searchParams } = new URL(request.url);
+  const chatId = searchParams.get("chatId");
 
+  try {
     if (!chatId) {
-      return NextResponse.json({ error: "Chat ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Chat ID is required" },
+        { status: 400 }
+      );
     }
 
     const supabase = createClient();
@@ -30,12 +34,18 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("Error fetching messages:", error);
-      return NextResponse.json({ error: "Error fetching messages" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Error fetching messages" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
     console.error("Unexpected error:", error);
-    return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 });
+    return NextResponse.json(
+      { error: "An unexpected error occurred" },
+      { status: 500 }
+    );
   }
 }

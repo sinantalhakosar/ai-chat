@@ -2,13 +2,17 @@ import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 import { ChatType, Provider } from "@/types/Common.types";
 
+// dynamic data outside of try/catch: https://stackoverflow.com/a/78010468/12527519
 export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const provider = searchParams.get("provider") as Provider;
+  const { searchParams } = new URL(request.url);
+  const provider = searchParams.get("provider") as Provider;
 
+  try {
     if (!provider) {
-      return NextResponse.json({ error: "Provider is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Provider is required" },
+        { status: 400 }
+      );
     }
 
     const supabase = createClient();
@@ -28,15 +32,21 @@ export async function GET(request: Request) {
       .eq("user_id", user.id)
       .order("updated_at", { ascending: false })
       .returns<Array<ChatType>>();
-      
+
     if (error) {
       console.error("Error fetching chat list:", error);
-      return NextResponse.json({ error: "Error fetching chat list" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Error fetching chat list" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json(data);
   } catch (error) {
     console.error("Unexpected error:", error);
-    return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 });
+    return NextResponse.json(
+      { error: "An unexpected error occurred" },
+      { status: 500 }
+    );
   }
 }
