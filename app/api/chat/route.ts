@@ -3,11 +3,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { extractCookieApiKeys } from "@/utils/extractCookieApiKeys";
-import {
-  availableAnthropicModels,
-  availableGoogleModels,
-  availableOpenAIModels,
-} from "@/types/Common.types";
+import { availableAnthropicModels, availableGoogleModels, availableOpenAIModels } from "@/data/aiModelsAndProviders";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;

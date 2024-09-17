@@ -1,4 +1,5 @@
-import { availableAnthropicModels, availableGoogleModels, availableOpenAIModels, Provider } from "@/types/Common.types";
+import { availableAnthropicModels, availableGoogleModels, availableOpenAIModels } from "@/data/aiModelsAndProviders";
+import { Provider } from "@/types/Common.types";
 
 export function getProviderModalList(provider: Provider) {
   switch (provider) {

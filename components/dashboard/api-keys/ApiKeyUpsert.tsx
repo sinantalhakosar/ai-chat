@@ -7,7 +7,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { availableProviders, Provider } from "@/types/Common.types";
+import { availableProviders } from "@/data/aiModelsAndProviders";
+import { Provider } from "@/types/Common.types";
 import { mapProviderToApiKeyName } from "@/utils/mapProviderToName";
 
 interface Props {
