@@ -1,11 +1,11 @@
 "use client";
 
-import { ChatList } from "../../components/dashboard/ChatList";
-import { DashboardProvider } from "../../contexts/DashboardContext";
-import ProviderList from "../../components/dashboard/ProviderList";
-import Conversation from "../../components/dashboard/Conversation";
+import { ChatList } from "@/components/dashboard/ChatList";
+import { DashboardProvider } from "@/contexts/DashboardContext";
+import ProviderList from "@/components/dashboard/ProviderList";
+import Conversation from "@/components/dashboard/Conversation";
 import { User } from "@supabase/supabase-js";
-import { ProfileMenu } from "@/components/ProfileMenu";
+import { ProfileMenu } from "@/components/common/ProfileMenu";
 
 export const Dashboard = ({ user }: { user: User }) => {
   return (

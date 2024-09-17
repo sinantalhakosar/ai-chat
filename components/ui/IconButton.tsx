@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ButtonProps } from "./Button";
+import { Button, ButtonProps } from "@/components/ui/Button";
 import { LucideIcon } from "lucide-react";
 
 interface Props extends ButtonProps {

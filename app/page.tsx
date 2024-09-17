@@ -1,4 +1,4 @@
-import Hero from "@/components/Hero";
+import Hero from "@/components/common/Hero";
 
 export default async function Index() {
   return (

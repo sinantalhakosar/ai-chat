@@ -1,11 +1,5 @@
-import {
-  AlertCircle,
-  Check,
-  CheckCircle,
-  CheckCircle2,
-  Terminal,
-} from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "./ui/Alert";
+import { AlertCircle, CheckCircle2, Terminal } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/Alert";
 
 export type Message =
   | { success: string }

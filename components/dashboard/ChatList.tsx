@@ -1,17 +1,17 @@
 "use client";
 
-import { useDashboard } from "../../contexts/DashboardContext";
+import { useDashboard } from "@/contexts/DashboardContext";
 import { useCallback, useEffect, useState } from "react";
 import { ChatType, Provider } from "@/types/Common.types";
-import { Chat } from "./Chat";
-import { Input } from "../ui/Input";
+import { Chat } from "@/components/dashboard/Chat";
+import { Input } from "@/components/ui/Input";
 import { Search, SquarePen } from "lucide-react";
-import { IconButton } from "../ui/IconButton";
+import { IconButton } from "@/components/ui/IconButton";
 import { fetchChatList } from "@/utils/api/fetchChatList";
 import { createChat } from "@/utils/api/createChat";
 import { useToast } from "@/hooks/useToast";
 import { times } from "lodash";
-import { Skeleton } from "../ui/Skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 export const ChatList = () => {
   const { toast } = useToast();

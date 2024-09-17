@@ -1,9 +1,9 @@
 "use client";
 
 import { Message, useChat } from "ai/react";
-import { useDashboard } from "../../contexts/DashboardContext";
-import { Textarea } from "../ui/Textarea";
-import { IconButton } from "../ui/IconButton";
+import { useDashboard } from "@/contexts/DashboardContext";
+import { Textarea } from "@/components/ui/Textarea";
+import { IconButton } from "@/components/ui/IconButton";
 import {
   Copy,
   MessageCircleWarning,
@@ -11,14 +11,14 @@ import {
   SendIcon,
   Square,
 } from "lucide-react";
-import { ConversationInfoTab } from "./ConversationInfoTab";
-import { ConversationBubble } from "./ConversationBubble";
+import { ConversationInfoTab } from "@/components/dashboard/ConversationInfoTab";
+import { ConversationBubble } from "@/components/dashboard/ConversationBubble";
 import { FormEvent, useEffect, useState } from "react";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import { fetchMessages } from "@/utils/api/fetchMessages";
 import { createMessage } from "@/utils/api/createMessage";
 import { createChat } from "@/utils/api/createChat";
-import { Skeleton } from "../ui/Skeleton";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { times } from "lodash";
 import { deleteLastMessageFromChat } from "@/utils/api/deleteLastMessageFromChat";
 import { useToast } from "@/hooks/useToast";

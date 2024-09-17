@@ -1,9 +1,9 @@
 "use client";
 
 import { signUpAction } from "@/app/actions";
-import { FormMessage, Message } from "@/components/FormMessage";
+import { FormMessage, Message } from "@/components/common/FormMessage";
 import Link from "next/link";
-import { SmtpMessage } from "../../../components/SmtpMessage";
+import { SmtpMessage } from "@/components/common/SmtpMessage";
 import { useForm } from "react-hook-form";
 import {
   Form,

@@ -2,8 +2,8 @@ import { signOutAction } from "@/app/actions";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
-import { Button } from "./ui/Button";
-import { Badge } from "./ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 
 export const HeaderAuth = async () => {
   const {

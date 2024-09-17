@@ -1,5 +1,5 @@
 import { getProviderLogo, mapProviderToName } from "@/utils/mapProviderToName";
-import { useDashboard } from "../../contexts/DashboardContext";
+import { useDashboard } from "@/contexts/DashboardContext";
 import { Provider } from "@/types/Common.types";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import Image from "next/image";

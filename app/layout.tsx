@@ -1,7 +1,7 @@
 import { GeistMono } from "geist/font/mono";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
-import { Toaster } from "@/components/Toaster";
+import { Toaster } from "@/components/common/Toaster";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

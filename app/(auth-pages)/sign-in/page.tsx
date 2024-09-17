@@ -1,7 +1,7 @@
 "use client";
 
 import { signInAction } from "@/app/actions";
-import { FormMessage, Message } from "@/components/FormMessage";
+import { FormMessage, Message } from "@/components/common/FormMessage";
 import {
   Form,
   FormControl,
