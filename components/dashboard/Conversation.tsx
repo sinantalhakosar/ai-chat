@@ -15,12 +15,12 @@ import { ConversationInfoTab } from "./ConversationInfoTab";
 import { ConversationBubble } from "./ConversationBubble";
 import { FormEvent, useEffect, useState } from "react";
 import { getProviderModalList } from "@/utils/getProviderModalList";
-import { fetchMessages } from "@/utils/supabase/fetchMessages";
-import { createMessage } from "@/utils/supabase/createMessage";
-import { createChat } from "@/utils/supabase/createChat";
+import { fetchMessages } from "@/utils/api/fetchMessages";
+import { createMessage } from "@/utils/api/createMessage";
+import { createChat } from "@/utils/api/createChat";
 import { Skeleton } from "../ui/skeleton";
 import { times } from "lodash";
-import { deleteLastMessageFromChat } from "@/utils/supabase/deleteLastMessageFromChat";
+import { deleteLastMessageFromChat } from "@/utils/api/deleteLastMessageFromChat";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Conversation() {
@@ -116,9 +116,18 @@ export default function Conversation() {
 
   const handleRegenerateClick = async () => {
     if (selectedChatId) {
-      const status = await deleteLastMessageFromChat(selectedChatId);
-      if (status) {
-        reload();
+      try {
+        const success = await deleteLastMessageFromChat(selectedChatId, selectedProvider);
+        if (success) {
+          reload();
+        }
+      } catch (error) {
+        console.error("Error regenerating message:", error);
+        toast({
+          title: "Error",
+          description: "Failed to regenerate message",
+          variant: "destructive",
+        });
       }
     }
   };

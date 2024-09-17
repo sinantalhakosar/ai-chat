@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IconButton } from "../ui/iconButton";
 import { Check, Edit2 } from "lucide-react";
 import { Input } from "../ui/input";
-import { updateChatName } from "@/utils/supabase/updateChatName";
+import { updateChatName } from "@/utils/api/updateChatName";
 
 interface Props {
   chat: ChatType;
