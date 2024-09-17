@@ -1,4 +1,4 @@
-import { IconButton } from "@/components/ui/iconButton";
+import { IconButton } from "@/components/ui/IconButton";
 import { Provider } from "@/types/Common.types";
 import { mapProviderToApiKeyName } from "@/utils/mapProviderToName";
 import { PencilIcon, TrashIcon } from "lucide-react";

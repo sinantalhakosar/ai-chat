@@ -5,7 +5,7 @@ import {
   CheckCircle2,
   Terminal,
 } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "./ui/Alert";
 
 export type Message =
   | { success: string }

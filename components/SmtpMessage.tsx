@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/Alert";
 import { ArrowUpRight, InfoIcon } from "lucide-react";
 import Link from "next/link";
 

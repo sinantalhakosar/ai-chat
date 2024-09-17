@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+} from "@/components/ui/Select";
+import { Textarea } from "@/components/ui/Textarea";
 import { availableProviders } from "@/data/aiModelsAndProviders";
 import { Provider } from "@/types/Common.types";
 import { mapProviderToApiKeyName } from "@/utils/mapProviderToName";

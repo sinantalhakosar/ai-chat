@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { setCookie, getCookie, deleteCookie } from "cookies-next";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 import { Provider } from "@/types/Common.types";
 import { ApiKeyList } from "../../../components/dashboard/api-keys/ApiKeyList";
 import { ApiKeyUpsert } from "../../../components/dashboard/api-keys/ApiKeyUpsert";

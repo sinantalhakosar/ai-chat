@@ -1,9 +1,7 @@
-import { HeaderAuth } from "@/components/HeaderAuth";
 import { GeistMono } from "geist/font/mono";
 import { ThemeProvider } from "next-themes";
-import Link from "next/link";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/Toaster";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

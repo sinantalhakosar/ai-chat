@@ -2,8 +2,8 @@
 
 import { Message, useChat } from "ai/react";
 import { useDashboard } from "../../contexts/DashboardContext";
-import { Textarea } from "../ui/textarea";
-import { IconButton } from "../ui/iconButton";
+import { Textarea } from "../ui/Textarea";
+import { IconButton } from "../ui/IconButton";
 import {
   Copy,
   MessageCircleWarning,
@@ -18,10 +18,10 @@ import { getProviderModalList } from "@/utils/getProviderModalList";
 import { fetchMessages } from "@/utils/api/fetchMessages";
 import { createMessage } from "@/utils/api/createMessage";
 import { createChat } from "@/utils/api/createChat";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../ui/Skeleton";
 import { times } from "lodash";
 import { deleteLastMessageFromChat } from "@/utils/api/deleteLastMessageFromChat";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 
 export default function Conversation() {
   const { toast } = useToast();

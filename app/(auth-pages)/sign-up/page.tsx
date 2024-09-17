@@ -12,13 +12,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage as UiFormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 import { Loader2 } from "lucide-react";
 import { signinFormSchema, SigninFormValues } from "@/types/Auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 
 export default function Signup({ searchParams }: { searchParams: Message }) {
   const { toast } = useToast();

@@ -1,7 +1,7 @@
 "use client";
 
 import { resetPasswordAction } from "@/app/actions";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
   Form,
   FormField,
@@ -9,8 +9,8 @@ import {
   FormLabel,
   FormControl,
   FormMessage as UiFormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
 import {
   resetPasswordFormSchema,
   ResetPasswordFormValues,
@@ -18,7 +18,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 
 export default function ResetPasswordForm() {
   const { toast } = useToast();

@@ -1,8 +1,8 @@
 import { ChatType } from "@/types/Common.types";
 import { useState } from "react";
-import { IconButton } from "../ui/iconButton";
+import { IconButton } from "../ui/IconButton";
 import { Check, Edit2 } from "lucide-react";
-import { Input } from "../ui/input";
+import { Input } from "../ui/Input";
 import { updateChatName } from "@/utils/api/updateChatName";
 
 interface Props {
