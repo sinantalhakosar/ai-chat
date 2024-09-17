@@ -50,7 +50,7 @@ export default function Conversation() {
       model: selectedModel,
     },
     streamProtocol: "text",
-    onFinish: async (message, options) => {
+    onFinish: async (message) => {
       if (selectedChatId) {
         await createMessage(selectedChatId, message.content, "assistant");
       } else if (tempChatId) {

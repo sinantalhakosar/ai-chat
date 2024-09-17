@@ -1,5 +1,4 @@
 import { Provider } from "@/types/Common.types";
-import { Ban, Codesandbox, LucideIcon, ShellIcon } from "lucide-react";
 
 export const mapProviderToName = (provider: Provider): string => {
   switch (provider) {
@@ -27,20 +26,7 @@ export const mapProviderToApiKeyName = (provider: Provider): string => {
   }
 };
 
-export const getProviderIcon = (provider: Provider): LucideIcon => {
-  switch (provider) {
-    case "openAI":
-      return Codesandbox;
-    case "google":
-      return ShellIcon;
-    case "anthropic":
-      return Ban;
-    default:
-      return Ban;
-  }
-};
-
-export const getProviderImage = (provider: Provider): string => {
+export const getProviderLogo = (provider: Provider): string => {
   switch (provider) {
     case "openAI":
       return "/images/openai.svg";

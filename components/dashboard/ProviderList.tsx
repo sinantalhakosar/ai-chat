@@ -1,11 +1,9 @@
-import {
-  getProviderImage,
-  mapProviderToName,
-} from "@/utils/mapProviderToName";
+import { getProviderLogo, mapProviderToName } from "@/utils/mapProviderToName";
 import { useDashboard } from "../../contexts/DashboardContext";
-import { availableProviders, Provider } from "@/types/Common.types";
+import { Provider } from "@/types/Common.types";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import Image from "next/image";
+import { availableProviders } from "@/data/aiModelsAndProviders";
 
 export default function ProviderList() {
   const {
@@ -19,8 +17,8 @@ export default function ProviderList() {
     setSelectedProvider(provider);
 
     const modelList = getProviderModalList(provider);
-    setSelectedModel(modelList[0]);
-    setSelectedChatId(null);
+    setSelectedModel(modelList[0]); // select first model by default
+    setSelectedChatId(null); // for ux, no need to click new chat button on provider change
   };
 
   return (
@@ -35,7 +33,7 @@ export default function ProviderList() {
             className={`${selectedProvider === provider ? "bg-[#2f333c]" : ""} p-1 rounded-lg cursor-pointer`}
           >
             <Image
-              src={getProviderImage(provider)}
+              src={getProviderLogo(provider)}
               alt="AI Chat Assistant"
               width={30}
               height={30}
