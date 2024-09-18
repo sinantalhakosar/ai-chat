@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { Model } from "@/types/Common.types";
-import { ProfileMenu } from "../common/ProfileMenu";
+import { ProfileMenu } from "@/components/common/ProfileMenu";
 import { useMediaQuery } from "react-responsive";
 import { User } from "@supabase/supabase-js";
 

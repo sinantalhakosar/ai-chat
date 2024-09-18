@@ -2,14 +2,12 @@
 
 import { Message, useChat } from "ai/react";
 import { useDashboard } from "@/contexts/DashboardContext";
-import { Textarea } from "@/components/ui/Textarea";
 import { IconButton } from "@/components/ui/IconButton";
 import {
   Copy,
   KeyRound,
   RefreshCcw,
   Send,
-  SendIcon,
   Square,
 } from "lucide-react";
 import { ConversationInfoTab } from "@/components/dashboard/ConversationInfoTab";
@@ -28,10 +26,10 @@ import { Button } from "@/components/ui/Button";
 import { getProviderLogo, mapProviderToName } from "@/utils/mapProviderToName";
 import Link from "next/link";
 import { updateChatSummary } from "@/utils/supabase/updateChatSummary";
-import { Input } from "../ui/Input";
+import { Input } from "@/components/ui/Input";
 import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
-import { EmptyChat } from "./EmptyChat";
+import { EmptyChat } from "@/components/dashboard/EmptyChat";
 import { User } from "@supabase/supabase-js";
 
 interface Props {

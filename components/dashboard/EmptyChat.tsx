@@ -1,6 +1,6 @@
 import { useDashboard } from "@/contexts/DashboardContext";
 import { getProviderLogo } from "@/utils/mapProviderToName";
-import { Files, Send, Sparkles, Split } from "lucide-react";
+import { Files, Sparkles, Split } from "lucide-react";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 

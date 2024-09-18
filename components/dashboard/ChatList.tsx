@@ -5,11 +5,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "@/components/dashboard/Chat";
 import { Input } from "@/components/ui/Input";
-import { Plus, Search, SquarePen } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { fetchChatList } from "@/utils/api/fetchChatList";
 import { createChat } from "@/utils/api/createChat";
 import { useToast } from "@/hooks/useToast";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
 
 interface Props {
   onChatClick: () => void;

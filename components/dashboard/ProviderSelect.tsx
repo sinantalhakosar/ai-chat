@@ -1,12 +1,12 @@
 import { getProviderLogo, mapProviderToName } from "@/utils/mapProviderToName";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
-import { Command, CommandItem, CommandList } from "../ui/Command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { Command, CommandItem, CommandList } from "@/components/ui/Command";
 import { useState } from "react";
 import { availableProviders } from "@/data/aiModelsAndProviders";
 import { useMediaQuery } from "react-responsive";
-import { Drawer, DrawerContent, DrawerTrigger } from "../ui/Drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/Drawer";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import { Provider } from "@/types/Common.types";

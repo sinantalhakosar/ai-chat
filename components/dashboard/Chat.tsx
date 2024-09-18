@@ -1,7 +1,7 @@
 import { ChatType } from "@/types/Common.types";
 import { Edit2 } from "lucide-react";
 import { useState } from "react";
-import { ChatNameEditDialog } from "./ChatNameEditDialog";
+import { ChatNameEditDialog } from "@/components/dashboard/ChatNameEditDialog";
 
 interface Props {
   id: ChatType["id"];
