@@ -5,15 +5,17 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "@/components/dashboard/Chat";
 import { Input } from "@/components/ui/Input";
-import { Search, SquarePen } from "lucide-react";
-import { IconButton } from "@/components/ui/IconButton";
+import { Plus, Search, SquarePen } from "lucide-react";
 import { fetchChatList } from "@/utils/api/fetchChatList";
 import { createChat } from "@/utils/api/createChat";
 import { useToast } from "@/hooks/useToast";
-import { times } from "lodash";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { Button } from "../ui/Button";
 
-export const ChatList = () => {
+interface Props {
+  onChatClick: () => void;
+}
+
+export const ChatList = ({ onChatClick }: Props) => {
   const { toast } = useToast();
 
   const { selectedProvider, selectedChatId, setSelectedChatId } =
@@ -63,6 +65,7 @@ export const ChatList = () => {
 
   const handleChatClick = (chatId: ChatType["id"]) => {
     setSelectedChatId(chatId);
+    onChatClick();
   };
 
   const handleNewChatClick = async () => {
@@ -81,41 +84,42 @@ export const ChatList = () => {
   };
 
   return (
-    <div className="flex flex-col h-full overflow-y-scroll px-4 py-4 gap-2">
-      <div className="px-4 flex justify-between items-center">
-        <h1>Chat list</h1>
-        <IconButton icon={SquarePen} onClick={handleNewChatClick} />
+    <div className="flex flex-col h-full overflow-y-scroll px-4 py-4 gap-2 bg-[#202020] rounded-2xl">
+      <div className="relative">
+        <Input
+          type="text"
+          placeholder="Search chats..."
+          className="w-full dark:bg-[#4C4C4C] rounded-lg h-10 pl-10 dark:placeholder:text-[#BDBDBD]" // Added left padding for the icon
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
       </div>
 
-      <div className="mb-4">
-        <div className="relative">
-          <Input
-            type="text"
-            placeholder="Search chats..."
-            className="w-full dark:bg-[#303236] rounded-2xl h-14 pl-10 dark:placeholder:text-[#BDBDBD]" // Added left padding for the icon
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 overflow-y-scroll">
         {loading ? (
           <h1>Loading...</h1>
         ) : filteredChatList.length > 0 ? (
           filteredChatList.map((chat) => (
             <Chat
               key={chat.id}
-              chat={chat}
+              id={chat.id}
+              name={chat.name ?? "Untitled"}
               onClick={handleChatClick}
               active={chat.id === selectedChatId}
-              onNameChange={handleChatNameChange}
+              onEdit={handleChatNameChange}
             />
           ))
         ) : (
-          <h2>No chat history found</h2>
+          <h2 className="mt-2">No results</h2>
         )}
       </div>
+
+      <Button
+        className="mt-auto flex items-center gap-2 justify-between dark:bg-slate-700"
+        onClick={handleNewChatClick}
+      >
+        New chat <Plus className="text-white rounded-md" />
+      </Button>
     </div>
   );
 };
