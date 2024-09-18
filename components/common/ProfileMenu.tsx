@@ -12,47 +12,63 @@ import { Key, LockKeyhole, LogOut } from "lucide-react";
 import { signOutAction } from "@/app/actions";
 import { User } from "@supabase/supabase-js";
 
-export const ProfileMenu = ({ user }: { user: User }) => {
+interface Props {
+  userEmail: User['email'];
+}
+
+export const ProfileMenu = ({ userEmail }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>{user.email?.slice(0, 2)}</AvatarFallback>
+          <AvatarImage src="/images/profile.svg" />
+          <AvatarFallback>SI</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="z-50" side="right">
-        <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+      <DropdownMenuContent
+        align="end"
+        className="z-50 dark:bg-[#202020] flex flex-col p-2"
+        side="bottom"
+      >
+        <DropdownMenuLabel>{userEmail}</DropdownMenuLabel>
 
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer" asChild>
-          <Link
-            href="/dashboard/api-keys"
-            className="cursor-pointer flex items-center"
+        <DropdownMenuSeparator className="dark:bg-white" />
+        <div className="flex flex-col gap-1 mt-2">
+          <DropdownMenuItem
+            className="cursor-pointer dark:hover:bg-[#4C4C4C]"
+            asChild
           >
-            <Key className="mr-2 h-4 w-4" />
-            Manage API Keys
-          </Link>
-        </DropdownMenuItem>
+            <Link
+              href="/dashboard/api-keys"
+              className="cursor-pointer flex items-center gap-2"
+            >
+              <Key className="mr-2 h-5 w-5" />
+              Manage API Keys
+            </Link>
+          </DropdownMenuItem>
 
-        <DropdownMenuItem className="cursor-pointer" asChild>
-          <Link
-            href="/dashboard/reset-password"
-            className="cursor-pointer flex items-center"
+          <DropdownMenuItem
+            className="cursor-pointer dark:hover:bg-[#4C4C4C]"
+            asChild
           >
-            <LockKeyhole className="mr-2 h-4 w-4" />
-            Reset Password
-          </Link>
-        </DropdownMenuItem>
+            <Link
+              href="/dashboard/reset-password"
+              className="cursor-pointer flex items-center gap-2"
+            >
+              <LockKeyhole className="mr-2 h-5 w-5" />
+              Reset Password
+            </Link>
+          </DropdownMenuItem>
 
-        <DropdownMenuItem
-          onSelect={() => signOutAction()}
-          className="cursor-pointer flex items-center"
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          Sign Out
-        </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={() => signOutAction()}
+            className="cursor-pointer flex items-center dark:hover:bg-[#4C4C4C] gap-2"
+          >
+            <LogOut className="mr-2 h-5 w-5" />
+            Sign Out
+          </DropdownMenuItem>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
