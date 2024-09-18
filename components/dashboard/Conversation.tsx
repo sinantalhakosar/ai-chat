@@ -4,7 +4,14 @@ import { Message, useChat } from "ai/react";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { Textarea } from "@/components/ui/Textarea";
 import { IconButton } from "@/components/ui/IconButton";
-import { Copy, RefreshCcw, SendIcon, Square } from "lucide-react";
+import {
+  Copy,
+  KeyRound,
+  RefreshCcw,
+  Send,
+  SendIcon,
+  Square,
+} from "lucide-react";
 import { ConversationInfoTab } from "@/components/dashboard/ConversationInfoTab";
 import { ConversationBubble } from "@/components/dashboard/ConversationBubble";
 import { FormEvent, useEffect, useState } from "react";
@@ -18,11 +25,22 @@ import { deleteLastMessageFromChat } from "@/utils/api/deleteLastMessageFromChat
 import { useToast } from "@/hooks/useToast";
 import { validateApiKey } from "@/utils/validateApiKey";
 import { Button } from "@/components/ui/Button";
-import { mapProviderToName } from "@/utils/mapProviderToName";
+import { getProviderLogo, mapProviderToName } from "@/utils/mapProviderToName";
 import Link from "next/link";
 import { updateChatSummary } from "@/utils/supabase/updateChatSummary";
+import { Input } from "../ui/Input";
+import { useMediaQuery } from "react-responsive";
+import Image from "next/image";
+import { EmptyChat } from "./EmptyChat";
+import { User } from "@supabase/supabase-js";
 
-export default function Conversation() {
+interface Props {
+  userEmail: User['email'];
+}
+
+export default function Conversation({ userEmail }: Props) {
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
+
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [chatSummary, setChatSummary] = useState("");
@@ -131,7 +149,7 @@ export default function Conversation() {
   const handleCopyClick = (content: string) => {
     navigator.clipboard.writeText(content);
     toast({
-      title: "Copied",
+      title: "Copied!",
       description: "Text copied to clipboard",
       variant: "default",
     });
@@ -162,31 +180,34 @@ export default function Conversation() {
 
   if (!validKey) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-2">
-        No valid API key found for {mapProviderToName(selectedProvider)}
-        <Link href="/dashboard/api-keys">
-          <Button>Manage API Keys</Button>
-        </Link>
+      <div className=" flex justify-center items-center w-full h-screen">
+        <div className="bg-[#202020] w-full sm:w-3/4 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
+          <KeyRound size={32} className="text-red-500" />
+
+          <p className="text-slate-50 text-lg text-center">
+            No valid API key found for {mapProviderToName(selectedProvider)}
+          </p>
+
+          <Link href="/dashboard/api-keys">
+            <Button className="bg-slate-700 text-slate-50">
+              Manage API Keys
+            </Button>
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col w-full h-full p-2">
+    <div className="flex flex-col w-full h-full">
       <ConversationInfoTab
         selectedModel={selectedModel}
         setSelectedModel={setSelectedModel}
         modelList={modelListBasedOnProvider}
+        userEmail={userEmail}
       />
 
-      <div
-        className="h-auto overflow-y-auto"
-        ref={(el) => {
-          if (el) {
-            el.scrollTop = el.scrollHeight;
-          }
-        }}
-      >
+      <div className="overflow-y-auto">
         {loading ? (
           times(8).map((i) => (
             <Skeleton
@@ -194,14 +215,8 @@ export default function Conversation() {
               className={`w-[400px] h-[50px] rounded-full bg-[#2f333c] ${i % 2 === 0 ? "ml-auto" : ""}`}
             />
           ))
-        ) : messages.length === 0 && selectedChatId === null ? (
-          <div className="flex flex-col h-screen flex-grow items-center justify-center">
-            <h1>No chat selected.</h1>
-            <h1>
-              Without selecting a chat from chatlist, it will create new chat
-              with name &quot;New Chat&quot;.
-            </h1>
-          </div>
+        ) : messages.length === 0 ? (
+          <EmptyChat />
         ) : (
           messages.map((m) => (
             <div key={m.id} className="flex flex-col mb-4">
@@ -237,46 +252,51 @@ export default function Conversation() {
 
       <form
         onSubmit={handleMessageSubmit}
-        className="mt-auto flex flex-col items-center justify-center"
+        className={`mt-auto ${isDesktop ? "mb-3" : "mb-28"} flex flex-col items-center justify-center relative w-full`}
       >
-        <div className="relative w-full mb-2 px-12">
-          <div className="relative w-full">
-            <div className="relative">
-              <div className="relative">
-                <Textarea
-                  className="w-full resize-none"
-                  value={input}
-                  placeholder="Say something..."
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
+        <div className="relative w-full">
+          <div className="relative">
+            <Image
+              src={getProviderLogo(selectedProvider, true)}
+              alt="AI Chat Assistant"
+              width={20}
+              height={20}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+            />
 
-                      handleMessageSubmit(
-                        e as unknown as FormEvent<HTMLFormElement>
-                      );
-                    }
-                  }}
-                />
-                <div className="absolute bottom-2 right-2">
-                  {isResponseLoading ? (
-                    <IconButton
-                      type="submit"
-                      icon={Square}
-                      size="sm"
-                      onClick={() => stop()}
-                    />
-                  ) : (
-                    <IconButton
-                      type="submit"
-                      icon={SendIcon}
-                      size="sm"
-                      disabled={loading || error !== undefined}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
+            <Input
+              className="dark:bg-slate-100 text-black pl-10 pr-20 dark:placeholder:text-zinc-700"
+              value={input}
+              placeholder="Say something..."
+              onChange={handleInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleMessageSubmit(
+                    e as unknown as FormEvent<HTMLFormElement>
+                  );
+                }
+              }}
+            />
+          </div>
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex">
+            {isResponseLoading ? (
+              <IconButton
+                type="button"
+                icon={Square}
+                size="sm"
+                onClick={() => stop()}
+                iconClassName="text-black"
+              />
+            ) : (
+              <IconButton
+                type="submit"
+                icon={Send}
+                size="sm"
+                disabled={loading || error !== undefined}
+                iconClassName="text-black"
+              />
+            )}
           </div>
         </div>
       </form>

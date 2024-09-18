@@ -2,6 +2,7 @@
 
 import { Message } from "ai/react/dist";
 import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 interface ConversationBubbleProps {
   content: string;
@@ -14,13 +15,15 @@ export const ConversationBubble: React.FC<ConversationBubbleProps> = ({
   type,
   isTyping,
 }) => {
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
+  
   const [displayedContent, setDisplayedContent] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const bubbleClass =
+  const bubbleClassColor =
     type !== "user"
-      ? "bg-[#2f333c] rounded-lg ml-2"
-      : "bg-[#4B555C] text-white rounded-lg mr-2";
+      ? "bg-slate-700"
+      : "bg-[#4C4C4C]";
 
   const containerClass =
     type !== "user" ? "flex justify-start" : "flex justify-end";
@@ -45,7 +48,7 @@ export const ConversationBubble: React.FC<ConversationBubbleProps> = ({
   return (
     <div className={containerClass}>
       <div
-        className={`${bubbleClass} p-3 max-w-[80%] whitespace-pre-wrap text-sm`}
+        className={`${bubbleClassColor} p-3 ${isDesktop ? "max-w-[50%]" : "max-w-full"} whitespace-pre-wrap text-sm text-white rounded-2xl mr-2`}
       >
         {displayedContent}
         {isTyping && currentIndex < content.length && (
