@@ -1,5 +1,4 @@
 import { GeistMono } from "geist/font/mono";
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Toaster } from "@/components/common/Toaster";
 
@@ -9,8 +8,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "AI - Chat",
+  description: "Innovative AI-powered chat interface",
 };
 
 export default function RootLayout({
@@ -19,25 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistMono.className} suppressHydrationWarning>
+    <html lang="en" className={`${GeistMono.className} dark`} suppressHydrationWarning>
       <body className="bg-background text-foreground">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col items-center">
-              <div className="flex flex-col w-full h-screen overflow-hidden items-center">
-                <div className="flex-grow overflow-auto pl-5 w-full flex items-center justify-center">
-                  {children}
-                </div>
-              </div>
-            </div>
-          </main>
-          <Toaster />
-        </ThemeProvider>
+        <main className="w-full h-screen flex flex-col items-center">
+          {children}
+        </main>
+        <Toaster />
       </body>
     </html>
   );
