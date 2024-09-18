@@ -1,9 +1,9 @@
 import { MessageType } from "@/types/Common.types";
 
-export async function fetchMessages(chatId: number | null): Promise<Array<MessageType>> {
+export async function fetchMessages(chatId: number | null): Promise<{messages: Array<MessageType>, chatSummary: string}> {
   try {
     if (chatId === null) {
-      return [];
+      return {messages: [], chatSummary: ""};
     }
 
     const response = await fetch(`/api/fetch-messages?chatId=${chatId}`);

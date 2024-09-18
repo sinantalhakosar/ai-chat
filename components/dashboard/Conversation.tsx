@@ -4,13 +4,7 @@ import { Message, useChat } from "ai/react";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { Textarea } from "@/components/ui/Textarea";
 import { IconButton } from "@/components/ui/IconButton";
-import {
-  Copy,
-  MessageCircleWarning,
-  RefreshCcw,
-  SendIcon,
-  Square,
-} from "lucide-react";
+import { Copy, RefreshCcw, SendIcon, Square } from "lucide-react";
 import { ConversationInfoTab } from "@/components/dashboard/ConversationInfoTab";
 import { ConversationBubble } from "@/components/dashboard/ConversationBubble";
 import { FormEvent, useEffect, useState } from "react";
@@ -26,11 +20,14 @@ import { validateApiKey } from "@/utils/validateApiKey";
 import { Button } from "@/components/ui/Button";
 import { mapProviderToName } from "@/utils/mapProviderToName";
 import Link from "next/link";
+import { updateChatSummary } from "@/utils/supabase/updateChatSummary";
 
 export default function Conversation() {
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [chatSummary, setChatSummary] = useState("");
 
-  // to escape hydration error
+  // hack: to escape hydration error
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -48,6 +45,7 @@ export default function Conversation() {
   const {
     messages,
     input,
+    setInput,
     handleInputChange,
     handleSubmit,
     setMessages,
@@ -57,30 +55,32 @@ export default function Conversation() {
     reload,
   } = useChat({
     api: "/api/chat",
+    initialInput: chatSummary,
     body: {
       model: selectedModel,
     },
     streamProtocol: "text",
     onFinish: async (message) => {
       if (selectedChatId) {
+        await updateChatSummary(selectedChatId, messages);
         await createMessage(selectedChatId, message.content, "assistant");
-      } else if (tempChatId) {
-        await createMessage(tempChatId, message.content, "assistant");
       }
     },
   });
 
   const validKey = validateApiKey(selectedProvider);
-
-  let tempChatId = selectedChatId;
-  const [loading, setLoading] = useState(false);
-
   const modelListBasedOnProvider = getProviderModalList(selectedProvider);
+
+  useEffect(() => {
+    // Clear the input when the provider changes
+    setInput("");
+  }, [selectedProvider, setInput]);
 
   useEffect(() => {
     const loadMessages = async () => {
       setLoading(true);
-      const messages = await fetchMessages(selectedChatId);
+      const { messages, chatSummary } = await fetchMessages(selectedChatId);
+
       const fetchedMessages = messages.map((m) => {
         const message: Message = {
           id: m.id.toString(),
@@ -91,11 +91,22 @@ export default function Conversation() {
       });
 
       setMessages(fetchedMessages);
+      setChatSummary(chatSummary);
       setLoading(false);
     };
 
     loadMessages();
   }, [selectedChatId, setMessages]);
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
 
   const handleMessageSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -107,7 +118,6 @@ export default function Conversation() {
     let chatId = selectedChatId;
     if (!chatId) {
       const data = await createChat(selectedProvider);
-      tempChatId = data.id;
       setSelectedChatId(data.id);
       chatId = data.id;
     }
@@ -164,7 +174,6 @@ export default function Conversation() {
   return (
     <div className="flex flex-col w-full h-full p-2">
       <ConversationInfoTab
-        selectedProvider={selectedProvider}
         selectedModel={selectedModel}
         setSelectedModel={setSelectedModel}
         modelList={modelListBasedOnProvider}
@@ -178,54 +187,57 @@ export default function Conversation() {
           }
         }}
       >
-        {loading
-          ? times(8).map((i) => (
-              <Skeleton
-                key={i}
-                className={`w-[400px] h-[50px] rounded-full bg-[#2f333c] ${i % 2 === 0 ? "ml-auto" : ""}`}
+        {loading ? (
+          times(8).map((i) => (
+            <Skeleton
+              key={i}
+              className={`w-[400px] h-[50px] rounded-full bg-[#2f333c] ${i % 2 === 0 ? "ml-auto" : ""}`}
+            />
+          ))
+        ) : messages.length === 0 && selectedChatId === null ? (
+          <div className="flex flex-col h-screen flex-grow items-center justify-center">
+            <h1>No chat selected.</h1>
+            <h1>
+              Without selecting a chat from chatlist, it will create new chat
+              with name &quot;New Chat&quot;.
+            </h1>
+          </div>
+        ) : (
+          messages.map((m) => (
+            <div key={m.id} className="flex flex-col mb-4">
+              <ConversationBubble
+                content={m.content}
+                type={m.role}
+                isTyping={
+                  m.role === "assistant" &&
+                  m.id === messages[messages.length - 1].id &&
+                  isResponseLoading
+                }
               />
-            ))
-          : messages.map((m) => (
-              <div key={m.id} className="flex flex-col mb-4">
-                <ConversationBubble
-                  content={m.content}
-                  type={m.role}
-                  isTyping={
-                    m.role === "assistant" &&
-                    m.id === messages[messages.length - 1].id &&
-                    isResponseLoading
-                  }
-                />
-                {m.role === "assistant" && (
-                  <div>
-                    {m.id === messages[messages.length - 1].id && (
-                      <IconButton
-                        icon={RefreshCcw}
-                        disableHover
-                        onClick={handleRegenerateClick}
-                      />
-                    )}
+              {m.role === "assistant" && (
+                <div>
+                  {m.id === messages[messages.length - 1].id && (
                     <IconButton
-                      icon={Copy}
+                      icon={RefreshCcw}
                       disableHover
-                      onClick={() => handleCopyClick(m.content)}
+                      onClick={handleRegenerateClick}
                     />
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                  <IconButton
+                    icon={Copy}
+                    disableHover
+                    onClick={() => handleCopyClick(m.content)}
+                  />
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
-      {/* bug: align bottom */}
-      {error && (
-        <div className="flex items-center justify-center mt-auto">
-          <MessageCircleWarning className="w-4 h-4 mr-2 text-red-500" />
-          <h1 className="text-red-500">{error.message}</h1>
-        </div>
-      )}
 
       <form
-        onSubmit={(e) => handleMessageSubmit(e)}
-        className="mt-auto flex justify-center"
+        onSubmit={handleMessageSubmit}
+        className="mt-auto flex flex-col items-center justify-center"
       >
         <div className="relative w-full mb-2 px-12">
           <div className="relative w-full">
@@ -259,7 +271,7 @@ export default function Conversation() {
                       type="submit"
                       icon={SendIcon}
                       size="sm"
-                      disabled={loading}
+                      disabled={loading || error !== undefined}
                     />
                   )}
                 </div>

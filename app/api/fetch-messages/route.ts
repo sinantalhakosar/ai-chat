@@ -32,7 +32,13 @@ export async function GET(request: Request) {
       .order("created_at", { ascending: true })
       .returns<MessageType[]>();
 
-    if (error) {
+    const { data: chatSummary, error: chatSummaryError } = await supabase
+      .from("chats")
+      .select("summary")
+      .eq("id", chatId)
+      .single<string>();
+
+    if (error || chatSummaryError) {
       console.error("Error fetching messages:", error);
       return NextResponse.json(
         { error: "Error fetching messages" },
@@ -40,7 +46,10 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json({
+      messages: data,
+      chatSummary: chatSummary,
+    });
   } catch (error) {
     console.error("Unexpected error:", error);
     return NextResponse.json(
