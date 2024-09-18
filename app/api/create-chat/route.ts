@@ -26,7 +26,6 @@ export async function POST(request: Request) {
         {
           user_id: user.id,
           provider: provider,
-          name: "New Chat",
           updated_at: new Date().toISOString(),
         },
       ])
