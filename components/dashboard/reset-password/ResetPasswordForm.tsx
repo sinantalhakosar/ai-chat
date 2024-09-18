@@ -54,13 +54,13 @@ export default function ResetPasswordForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>New Password</FormLabel>
+              <FormLabel className="text-md">New Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -84,7 +84,7 @@ export default function ResetPasswordForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm New Password</FormLabel>
+              <FormLabel className="text-md">Confirm New Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
