@@ -8,6 +8,8 @@ import { ApiKeyList } from "@/components/dashboard/api-keys/ApiKeyList";
 import { ApiKeyUpsert } from "@/components/dashboard/api-keys/ApiKeyUpsert";
 import { mapProviderToApiKeyName } from "@/utils/mapProviderToName";
 import { availableProviders } from "@/data/aiModelsAndProviders";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function ApiKeysPage() {
   const { toast } = useToast();
@@ -72,20 +74,27 @@ export default function ApiKeysPage() {
   };
 
   return (
-    <div className="p-4 flex flex-col gap-4 w-full">
-      <div className="mb-8">
-        <p>
-          This page allows you to manage your API keys, which are essential for
-          utilizing the Chat functionality.
-          <br />
-          For security purposes, your API keys are securely stored in your
-          browser&apos;s cookies and are accessible only to you.
-          <br />
-          This ensures that your sensitive information remains private and
-          protected.
-        </p>
+    <div className="flex flex-col gap-4 w-4/5 bg-[#303236] rounded-3xl items-center py-8">
+      <div className="p-4 w-3/4 flex justify-start items-center gap-2 hover:cursor-pointer">
+        <ArrowLeft />
+        <Link href="/dashboard" className="hover:underline">Back to chat</Link>
       </div>
-      <div className="flex space-x-12">
+
+      <div className="p-4 w-3/4">
+      <h1 className="text-2xl font-bold mb-4">Add new API Key</h1>
+      
+        <ApiKeyUpsert
+          selectedProvider={selectedProvider}
+          setSelectedProvider={setSelectedProvider}
+          newApiValue={newApiValue}
+          setNewApiValue={setNewApiValue}
+          handleSave={handleSave}
+        />
+      </div>
+
+      <div className="p-4 w-3/4">
+        <h1 className="text-2xl font-bold mb-4">API Key List</h1>
+
         {providers.length > 0 ? (
           <ApiKeyList
             providers={providers}
@@ -101,14 +110,6 @@ export default function ApiKeysPage() {
             </p>
           </div>
         )}
-
-        <ApiKeyUpsert
-          selectedProvider={selectedProvider}
-          setSelectedProvider={setSelectedProvider}
-          newApiValue={newApiValue}
-          setNewApiValue={setNewApiValue}
-          handleSave={handleSave}
-        />
       </div>
     </div>
   );

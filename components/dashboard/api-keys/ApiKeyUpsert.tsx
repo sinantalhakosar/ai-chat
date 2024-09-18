@@ -27,41 +27,38 @@ export const ApiKeyUpsert = ({
   handleSave,
 }: Props) => {
   return (
-    <div className="w-1/2">
-      <h1 className="text-2xl font-bold mb-4">Add new API Key</h1>
-      <div className="mb-4 flex flex-col items-start gap-4">
-        <Select
-          onValueChange={(value) => {
-            setSelectedProvider(value as Provider);
-            setNewApiValue(""); // Clear textarea when a new API key is selected
-          }}
-          value={selectedProvider}
-        >
-          <SelectTrigger className="w-full flex">
-            <SelectValue placeholder="Select API Key" />
-          </SelectTrigger>
-          <SelectContent>
-            {availableProviders.map((provider) => (
-              <SelectItem key={provider} value={provider}>
-                <div className="w-full flex">
-                  {mapProviderToApiKeyName(provider)}
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className="mb-4 flex flex-col items-start gap-4">
+      <Select
+        onValueChange={(value) => {
+          setSelectedProvider(value as Provider);
+          setNewApiValue(""); // Clear textarea when a new API key is selected
+        }}
+        value={selectedProvider}
+      >
+        <SelectTrigger className="w-full flex">
+          <SelectValue placeholder="Select API Key" />
+        </SelectTrigger>
+        <SelectContent>
+          {availableProviders.map((provider) => (
+            <SelectItem key={provider} value={provider}>
+              <div className="w-full flex">
+                {mapProviderToApiKeyName(provider)}
+              </div>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-        <Textarea
-          value={newApiValue}
-          onChange={(e) => setNewApiValue(e.target.value)}
-          placeholder="Enter API Key value"
-          className="w-full mt-2 mb-2"
-        />
+      <Textarea
+        value={newApiValue}
+        onChange={(e) => setNewApiValue(e.target.value)}
+        placeholder="Enter API Key value"
+        className="w-full mt-2 mb-2"
+      />
 
-        <Button onClick={handleSave} variant="default" className="ml-auto">
-          Add Key
-        </Button>
-      </div>
+      <Button onClick={handleSave} variant="default" className="ml-auto">
+        Add Key
+      </Button>
     </div>
   );
 };

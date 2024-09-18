@@ -21,22 +21,18 @@ export const ApiKeyList = ({
   deleteApiKey,
 }: Props) => {
   return (
-    <div className="w-1/2">
-      <h1 className="text-2xl font-bold mb-4">API Keys</h1>
-
-      <div className="space-y-4">
-        {providers
-          .sort((a, b) => a.key.localeCompare(b.key))
-          .map((provider) => (
-            <ApiKeyItem
-              key={provider.key}
-              provider={provider}
-              setSelectedProvider={setSelectedProvider}
-              setNewApiValue={setNewApiValue}
-              deleteApiKey={deleteApiKey}
-            />
-          ))}
-      </div>
+    <div className="w-full">
+      {providers
+        .sort((a, b) => a.key.localeCompare(b.key))
+        .map((provider) => (
+          <ApiKeyItem
+            key={provider.key}
+            provider={provider}
+            setSelectedProvider={setSelectedProvider}
+            setNewApiValue={setNewApiValue}
+            deleteApiKey={deleteApiKey}
+          />
+        ))}
     </div>
   );
 };
@@ -55,13 +51,11 @@ const ApiKeyItem = ({
   deleteApiKey,
 }: ApiKeyItemProps) => {
   return (
-    <div className="flex items-center justify-between space-x-4 p-2 border rounded">
-      <div className="flex-grow flex items-center justify-between gap-6">
-        <p className="font-semibold">{mapProviderToApiKeyName(provider.key)}</p>
-        <p className="text-sm text-gray-500">{maskApiKey(provider.value)}</p>
-      </div>
+    <div className="flex items-center w-full gap-4 mb-4">
+      <p className="font-semibold">{mapProviderToApiKeyName(provider.key)}</p>
+      <p className="text-sm text-gray-500">{maskApiKey(provider.value)}</p>
 
-      <div className="flex space-x-2">
+      <div className="ml-auto space-x-2">
         <IconButton
           onClick={() => {
             setSelectedProvider(provider.key);
