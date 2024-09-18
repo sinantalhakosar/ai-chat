@@ -26,13 +26,13 @@ export const mapProviderToApiKeyName = (provider: Provider): string => {
   }
 };
 
-export const getProviderLogo = (provider: Provider): string => {
+export const getProviderLogo = (provider: Provider, dark?:boolean): string => {
   switch (provider) {
     case "openAI":
-      return "/images/openai.svg";
+      return `/images/openai${dark ? "-dark" : ""}.svg`;
     case "google":
-      return "/images/gemini.svg";
+      return `/images/gemini${dark ? "-dark" : ""}.svg`;
     case "anthropic":
-      return "/images/anthropic.svg";
+      return `/images/anthropic${dark ? "-dark" : ""}.svg`;
   }
 };
