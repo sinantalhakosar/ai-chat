@@ -22,8 +22,19 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { times } from "lodash";
 import { deleteLastMessageFromChat } from "@/utils/api/deleteLastMessageFromChat";
 import { useToast } from "@/hooks/useToast";
+import { validateApiKey } from "@/utils/validateApiKey";
+import { Button } from "@/components/ui/Button";
+import { mapProviderToName } from "@/utils/mapProviderToName";
+import Link from "next/link";
 
 export default function Conversation() {
+  const [mounted, setMounted] = useState(false);
+
+  // to escape hydration error
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { toast } = useToast();
 
   const {
@@ -59,6 +70,8 @@ export default function Conversation() {
     },
   });
 
+  const validKey = validateApiKey(selectedProvider);
+
   let tempChatId = selectedChatId;
   const [loading, setLoading] = useState(false);
 
@@ -78,10 +91,10 @@ export default function Conversation() {
       });
 
       setMessages(fetchedMessages);
+      setLoading(false);
     };
 
     loadMessages();
-    setLoading(false);
   }, [selectedChatId, setMessages]);
 
   const handleMessageSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -117,7 +130,10 @@ export default function Conversation() {
   const handleRegenerateClick = async () => {
     if (selectedChatId) {
       try {
-        const success = await deleteLastMessageFromChat(selectedChatId, selectedProvider);
+        const success = await deleteLastMessageFromChat(
+          selectedChatId,
+          selectedProvider
+        );
         if (success) {
           reload();
         }
@@ -131,6 +147,19 @@ export default function Conversation() {
       }
     }
   };
+
+  if (!mounted) return <></>;
+
+  if (!validKey) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full gap-2">
+        No valid API key found for {mapProviderToName(selectedProvider)}
+        <Link href="/dashboard/api-keys">
+          <Button>Manage API Keys</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-full h-full p-2">
