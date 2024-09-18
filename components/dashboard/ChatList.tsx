@@ -1,7 +1,7 @@
 "use client";
 
 import { useDashboard } from "@/contexts/DashboardContext";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChatType, Provider } from "@/types/Common.types";
 import { Chat } from "@/components/dashboard/Chat";
 import { Input } from "@/components/ui/Input";
@@ -21,6 +21,13 @@ export const ChatList = () => {
 
   const [loading, setLoading] = useState(false);
   const [chatList, setChatList] = useState<Array<ChatType>>([]);
+  const [search, setSearch] = useState("");
+
+  const filteredChatList = useMemo(() => {
+    return chatList.filter((chat) =>
+      (chat.name?.toLowerCase() ?? "").includes(search.toLowerCase())
+    );
+  }, [chatList, search]);
 
   const getChatList = useCallback(
     async (selectedProvider: Provider) => {
@@ -67,8 +74,8 @@ export const ChatList = () => {
   };
 
   return (
-    <div className="flex flex-col h-full overflow-y-scroll px-6 py-4 w-1/4 gap-2 border-r border-r-foreground/10">
-      <div className="px-2 flex justify-between items-center">
+    <div className="flex flex-col h-full overflow-y-scroll px-4 py-4 gap-2">
+      <div className="px-4 flex justify-between items-center">
         <h1>Chat list</h1>
         <IconButton icon={SquarePen} onClick={handleNewChatClick} />
       </div>
@@ -78,8 +85,8 @@ export const ChatList = () => {
           <Input
             type="text"
             placeholder="Search chats..."
-            className="w-full dark:bg-[#2f333c] rounded-2xl h-14 pl-10" // Added left padding for the icon
-            onChange={(e) => {}}
+            className="w-full dark:bg-[#303236] rounded-2xl h-14 pl-10 dark:placeholder:text-[#BDBDBD]" // Added left padding for the icon
+            onChange={(e) => setSearch(e.target.value)}
           />
           <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
@@ -87,14 +94,14 @@ export const ChatList = () => {
 
       <div className="flex flex-col gap-2">
         {loading ? (
-          times(6).map((index) => (
+          times(26).map((index) => (
             <Skeleton
               key={index}
-              className="w-full h-[50px] rounded-full bg-[#2f333c]"
+              className="w-full h-[72px] rounded-2xl bg-[#4B555C]"
             />
           ))
-        ) : chatList.length > 0 ? (
-          chatList.map((chat) => (
+        ) : filteredChatList.length > 0 ? (
+          filteredChatList.map((chat) => (
             <Chat
               key={chat.id}
               chat={chat}
