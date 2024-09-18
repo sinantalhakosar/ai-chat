@@ -8,6 +8,7 @@ interface Props extends ButtonProps {
   text?: string;
   active?: boolean;
   disableHover?: boolean;
+  iconClassName?: string;
 }
 
 export const IconButton = ({
@@ -15,19 +16,17 @@ export const IconButton = ({
   active,
   onClick,
   disableHover,
+  iconClassName,
   ...rest
 }: Omit<Props, "text">) => {
   return (
     <Button
       variant="icon"
       size="icon"
-      className={
-        active ? "bg-[#2f333c]" : disableHover ? "" : "hover:bg-[#2f333c]"
-      }
       onClick={onClick}
       {...rest}
     >
-      <Icon className="h-5 w-5" />
+      <Icon className={`h-5 w-5 ${iconClassName}`}/>
     </Button>
   );
 };

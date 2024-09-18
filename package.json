@@ -8,7 +8,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write .",
-     "add-component": "tsx ./bin/add-component.ts"
+    "add-component": "tsx ./bin/add-component.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^0.0.50",
@@ -16,8 +16,10 @@
     "@ai-sdk/openai": "^0.0.60",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
@@ -27,6 +29,7 @@
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "cookies-next": "^4.2.1",
     "framer-motion": "^11.5.4",
     "geist": "^1.2.1",
@@ -37,6 +40,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.53.0",
+    "react-responsive": "^10.0.0",
+    "vaul": "^0.9.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
