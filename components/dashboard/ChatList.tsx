@@ -32,8 +32,6 @@ export const ChatList = () => {
   const getChatList = useCallback(
     async (selectedProvider: Provider) => {
       try {
-        setLoading(true);
-
         const data = await fetchChatList(selectedProvider);
         setChatList(data);
       } catch (error) {
@@ -43,16 +41,25 @@ export const ChatList = () => {
           description: "Please try again later",
           variant: "destructive",
         });
-      } finally {
-        setLoading(false);
       }
     },
     [toast]
   );
 
+  // the reason of 2 useEffect is that, only when we select different provider, we need to show loading due to UX
   useEffect(() => {
-    getChatList(selectedProvider);
+    setLoading(true);
+    getChatList(selectedProvider).finally(() => {
+      setLoading(false);
+    });
   }, [getChatList, selectedProvider]);
+
+  useEffect(() => {
+    if (selectedChatId) {
+      getChatList(selectedProvider);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getChatList, selectedChatId]);
 
   const handleChatClick = (chatId: ChatType["id"]) => {
     setSelectedChatId(chatId);
@@ -94,12 +101,7 @@ export const ChatList = () => {
 
       <div className="flex flex-col gap-2">
         {loading ? (
-          times(26).map((index) => (
-            <Skeleton
-              key={index}
-              className="w-full h-[72px] rounded-2xl bg-[#4B555C]"
-            />
-          ))
+          <h1>Loading...</h1>
         ) : filteredChatList.length > 0 ? (
           filteredChatList.map((chat) => (
             <Chat
