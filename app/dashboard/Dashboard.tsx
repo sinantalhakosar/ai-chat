@@ -10,16 +10,22 @@ import { ProfileMenu } from "@/components/common/ProfileMenu";
 export const Dashboard = ({ user }: { user: User }) => {
   return (
     <DashboardProvider>
-      <div className="flex gap-4 justify-between w-full h-full">
-        <div className="w-auto flex flex-col items-center mt-2 justify-center">
-          <ProviderList />
+      <div className="p-4 h-full w-full flex gap-4">
+        <div className="w-20 h-full bg-[#303236] flex flex-col items-center justify-between rounded-3xl pt-4">
+          <div>
+            <ProviderList />
+          </div>
 
-          <div className="mt-auto mb-8 border-t border-r-foreground pt-12 w-full flex justify-center">
+          <div>
             <ProfileMenu user={user} />
           </div>
         </div>
-        <div className="flex-grow flex gap-4 w-full bg-[#202328] rounded-l-3xl">
+
+        <div className="h-full bg-[#303236] flex flex-col items-center justify-between rounded-3xl">
           <ChatList />
+        </div>
+
+        <div className="w-full h-full bg-[#303236] flex flex-col items-center justify-between rounded-3xl">
           <Conversation />
         </div>
       </div>

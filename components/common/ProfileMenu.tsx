@@ -22,11 +22,11 @@ export const ProfileMenu = ({ user }: { user: User }) => {
         </Avatar>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="z-50">
+      <DropdownMenuContent align="end" className="z-50" side="right">
         <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer" asChild>
           <Link
             href="/dashboard/api-keys"
             className="cursor-pointer flex items-center"
@@ -36,7 +36,7 @@ export const ProfileMenu = ({ user }: { user: User }) => {
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer" asChild>
           <Link
             href="/dashboard/reset-password"
             className="cursor-pointer flex items-center"

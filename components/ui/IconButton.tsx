@@ -7,7 +7,6 @@ interface Props extends ButtonProps {
   icon: LucideIcon;
   text?: string;
   active?: boolean;
-  onClick?: () => void;
   disableHover?: boolean;
 }
 

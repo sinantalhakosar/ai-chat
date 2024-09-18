@@ -1,5 +1,5 @@
 import { ChatType } from "@/types/Common.types";
-import { useState } from "react";
+import { MouseEvent, MouseEventHandler, useState } from "react";
 import { IconButton } from "@/components/ui/IconButton";
 import { Check, Edit2 } from "lucide-react";
 import { Input } from "@/components/ui/Input";
@@ -15,6 +15,12 @@ interface Props {
 export const Chat = ({ chat, onClick, active, onNameChange }: Props) => {
   const { updated_at, name } = chat;
 
+  const truncatedName = name
+    ? name.length > 15
+      ? name.slice(0, 15) + "..."
+      : name
+    : "Untitled";
+
   const [isHovering, setIsHovering] = useState(false);
 
   const time = new Date(updated_at).toLocaleTimeString([], {
@@ -26,7 +32,13 @@ export const Chat = ({ chat, onClick, active, onNameChange }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingName, setEditingName] = useState(name);
 
-  const handleChatNameChange = async () => {
+  const handleChatNameChange = async (
+    event?: MouseEvent<HTMLButtonElement>
+  ) => {
+    if (event) {
+      event.stopPropagation();
+    }
+
     if (editingName && editingName.trim() !== "") {
       const result = await updateChatName(chat.id, editingName);
       if (result) {
@@ -38,7 +50,7 @@ export const Chat = ({ chat, onClick, active, onNameChange }: Props) => {
 
   return (
     <div
-      className={`flex flex-row justify-between cursor-pointer ${isEditing ? "p-0" : "p-4 hover:bg-[#2f333c]"} rounded-2xl gap-2 ${active ? "bg-[#2f333c]" : ""}`}
+      className={`flex flex-row justify-between cursor-pointer ${isEditing ? "p-0" : "p-4 hover:bg-[#4B555C]"} rounded-2xl ${active ? "bg-[#4B555C]" : ""}`}
       onClick={() => onClick(chat.id)}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -50,11 +62,14 @@ export const Chat = ({ chat, onClick, active, onNameChange }: Props) => {
             placeholder="Search chats..."
             className="w-full rounded-2xl pr-10" // Added right padding for the button
             value={editingName ?? ""}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
             onChange={(e) => {
               setEditingName(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 handleChatNameChange();
               }
             }}
@@ -67,9 +82,11 @@ export const Chat = ({ chat, onClick, active, onNameChange }: Props) => {
           />
         </div>
       ) : (
-        <>
-          <div className="text-sm font-medium">{name ?? "Untitled"}</div>
-          <div className="text-sm font-medium">{time}</div>
+        <div className="flex flex-grow justify-between items-center">
+          <div>
+            <div className="text-sm font-medium">{truncatedName}</div>
+            <div className="text-sm font-medium ml-auto">{time}</div>
+          </div>
           <Edit2
             className={`${isHovering ? "opacity-100" : "opacity-0"} transition-opacity duration-200`}
             width={18}
@@ -79,7 +96,7 @@ export const Chat = ({ chat, onClick, active, onNameChange }: Props) => {
               setIsEditing(true);
             }}
           />
-        </>
+        </div>
       )}
     </div>
   );

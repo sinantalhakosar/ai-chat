@@ -101,3 +101,5 @@ https://github.com/vercel/vercel/discussions/5672
 https://github.com/shadcn-ui/ui/pull/774#issuecomment-2356926435
 https://github.com/shadcn-ui/ui/issues/812
 - supabase auth policies
+- indexes created in supabase
+- asChild in dropdown menu to link performance

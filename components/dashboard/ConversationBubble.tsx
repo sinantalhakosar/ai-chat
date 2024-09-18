@@ -20,7 +20,7 @@ export const ConversationBubble: React.FC<ConversationBubbleProps> = ({
   const bubbleClass =
     type !== "user"
       ? "bg-[#2f333c] rounded-lg ml-2"
-      : "bg-[#7189f5] text-white rounded-lg mr-2";
+      : "bg-[#4B555C] text-white rounded-lg mr-2";
 
   const containerClass =
     type !== "user" ? "flex justify-start" : "flex justify-end";

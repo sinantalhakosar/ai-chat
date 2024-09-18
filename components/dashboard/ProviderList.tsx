@@ -30,7 +30,7 @@ export default function ProviderList() {
           onClick={() => handleProviderClick(provider)}
         >
           <div
-            className={`${selectedProvider === provider ? "bg-[#2f333c]" : ""} p-1 rounded-lg cursor-pointer`}
+            className={`${selectedProvider === provider ? "bg-[#4B555C]" : ""} p-1 rounded-lg cursor-pointer hover:bg-[#4B555C]`}
           >
             <Image
               src={getProviderLogo(provider)}
@@ -41,7 +41,7 @@ export default function ProviderList() {
             />
           </div>
 
-          <span className="mt-2 text-sm font-medium whitespace-nowrap">
+          <span className="mt-2 text-xs font-medium whitespace-nowrap">
             {mapProviderToName(provider)}
           </span>
         </div>

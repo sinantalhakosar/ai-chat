@@ -21,7 +21,7 @@ export const ConversationInfoTab = ({
   setSelectedModel,
 }: Props) => {
   return (
-    <div className="mb-4 mt-2 flex items-center gap-2 justify-between">
+    <div className="mb-4 mt-2 flex items-center gap-2 justify-center">
       <div className="flex items-center gap-2 w-1/3">
         <h1 className="whitespace-nowrap">Model:</h1>
 

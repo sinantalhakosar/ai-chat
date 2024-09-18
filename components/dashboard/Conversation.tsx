@@ -133,7 +133,7 @@ export default function Conversation() {
   };
 
   return (
-    <div className="flex flex-col w-full p-2">
+    <div className="flex flex-col w-full h-full p-2">
       <ConversationInfoTab
         selectedProvider={selectedProvider}
         selectedModel={selectedModel}
@@ -198,12 +198,12 @@ export default function Conversation() {
         onSubmit={(e) => handleMessageSubmit(e)}
         className="mt-auto flex justify-center"
       >
-        <div className="relative w-3/4 mb-2">
+        <div className="relative w-full mb-2 px-12">
           <div className="relative w-full">
             <div className="relative">
               <div className="relative">
                 <Textarea
-                  className="w-full pr-20 resize-none"
+                  className="w-full resize-none"
                   value={input}
                   placeholder="Say something..."
                   onChange={handleInputChange}
