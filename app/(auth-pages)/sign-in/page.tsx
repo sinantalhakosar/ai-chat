@@ -43,15 +43,16 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-full max-w-md space-y-8">
-        <FormMessage message={searchParams} />
+    <div className="flex flex-col items-center h-screen justify-center">
+      <div className="bg-[#202020] rounded-2xl p-8 w-4/5 sm:w-full">
+
         <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
           Sign in to your account
         </h2>
+
         <Form {...form}>
           <form
-            className="mt-8 space-y-6"
+            className="mt-8 flex flex-col gap-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
@@ -66,12 +67,14 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
                       type="text"
                       placeholder="you@example.com"
                       autoComplete="email"
+                      className="dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
                     />
                   </FormControl>
                   <UiFormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="password"
@@ -80,16 +83,18 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
+                      {...field}
                       type="password"
                       placeholder="Enter your password"
                       autoComplete="current-password"
-                      {...field}
+                      className="dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
                     />
                   </FormControl>
                   <UiFormMessage />
                 </FormItem>
               )}
             />
+
             <div className="flex items-center justify-between">
               <Link
                 className="text-sm text-blue-600 hover:underline"
@@ -98,23 +103,27 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
                 Forgot your password?
               </Link>
             </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing In...
-                </>
-              ) : (
-                "Sign in"
-              )}
-            </Button>
+
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                className="bg-slate-700 hover:bg-slate-600"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  "Sign in"
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
-        <p className="mt-2 text-center text-sm text-foreground">
+
+        <p className="mt-8 text-center text-sm text-foreground whitespace-nowrap">
           Don&apos;t have an account?{" "}
           <Link
             className="font-medium text-blue-600 hover:underline"
@@ -123,6 +132,8 @@ export default function SignIn({ searchParams }: { searchParams: Message }) {
             Sign up
           </Link>
         </p>
+
+        <FormMessage message={searchParams} />
       </div>
     </div>
   );

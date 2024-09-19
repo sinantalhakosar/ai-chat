@@ -3,7 +3,6 @@
 import { signUpAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/common/FormMessage";
 import Link from "next/link";
-import { SmtpMessage } from "@/components/common/SmtpMessage";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -48,12 +47,13 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-full max-w-md space-y-8">
-        <FormMessage message={searchParams} />
+    <div className="flex flex-col items-center h-screen justify-center">
+      <div className="bg-[#202020] rounded-2xl p-8 w-4/5 sm:w-full">
+
         <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
           Create your account
         </h2>
+
         <Form {...form}>
           <form
             className="mt-8 space-y-6"
@@ -67,16 +67,19 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
                   <FormLabel>Email address</FormLabel>
                   <FormControl>
                     <Input
+                      {...field}
                       type="text"
                       placeholder="you@example.com"
                       autoComplete="email"
-                      {...field}
+                      className="dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
                     />
                   </FormControl>
+
                   <UiFormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="password"
@@ -85,33 +88,39 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
+                      {...field}
                       type="password"
                       placeholder="Enter your password"
                       autoComplete="new-password"
-                      {...field}
+                      className="dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
                     />
                   </FormControl>
+
                   <UiFormMessage />
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing Up...
-                </>
-              ) : (
-                "Sign up"
-              )}
-            </Button>
+
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                className="bg-slate-700 hover:bg-slate-600"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing Up...
+                  </>
+                ) : (
+                  "Sign up"
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
-        <p className="mt-2 text-center text-sm text-foreground">
+
+        <p className="mt-8 text-center text-sm text-foreground flex flex-wrap gap-2">
           Already have an account?{" "}
           <Link
             className="font-medium text-blue-600 hover:underline"
@@ -120,7 +129,8 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
             Sign in
           </Link>
         </p>
-        <SmtpMessage />
+
+        <FormMessage message={searchParams} />
       </div>
     </div>
   );
