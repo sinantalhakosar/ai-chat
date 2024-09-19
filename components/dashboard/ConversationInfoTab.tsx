@@ -26,7 +26,7 @@ export const ConversationInfoTab = ({
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
   return (
-    <div className="mb-4 w-full flex justify-between">
+    <div className="mb-4 w-full flex justify-between pl-8 sm:pl-0">
       <div></div>
       <div className={`${isDesktop ? "w-1/3" : "w-3/4"}`}>
         <Select

@@ -10,7 +10,7 @@ export const EmptyChat = () => {
 
   return (
     <div className=" flex justify-center items-center w-full h-screen">
-      <div className="bg-[#202020] w-full sm:w-3/4 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
+      <div className="bg-[#202020] w-full sm:w-3/4 2xl:w-1/2 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
         <Image
           src={getProviderLogo(selectedProvider)}
           alt="AI Chat Assistant"

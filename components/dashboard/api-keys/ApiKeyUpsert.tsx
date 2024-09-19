@@ -35,10 +35,10 @@ export const ApiKeyUpsert = ({
         }}
         value={selectedProvider}
       >
-        <SelectTrigger className="w-full flex">
-          <SelectValue placeholder="Select API Key" />
+        <SelectTrigger className="w-full flex dark:bg-[#4C4C4C] rounded-lg">
+          <SelectValue placeholder="Select API Key" className="dark:placeholder:text-[#BDBDBD]" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="dark:bg-[#202020]">
           {availableProviders.map((provider) => (
             <SelectItem key={provider} value={provider}>
               <div className="w-full flex">
@@ -53,10 +53,10 @@ export const ApiKeyUpsert = ({
         value={newApiValue}
         onChange={(e) => setNewApiValue(e.target.value)}
         placeholder="Enter API Key value"
-        className="w-full mt-2 mb-2"
+        className="w-full mt-2 mb-2 dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
       />
 
-      <Button onClick={handleSave} variant="default" className="ml-auto">
+      <Button onClick={handleSave} className="ml-auto bg-slate-700 hover:bg-slate-600">
         Add Key
       </Button>
     </div>

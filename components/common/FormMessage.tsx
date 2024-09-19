@@ -8,7 +8,7 @@ export type Message =
 
 export function FormMessage({ message }: { message: Message }) {
   return (
-    <div className="flex flex-col gap-2 w-full max-w-md text-sm">
+    <div className="flex flex-col gap-2 w-full text-sm mt-4">
       {"success" in message && (
         <Alert variant="success">
           <CheckCircle2 className="h-4 w-4" color="green" />

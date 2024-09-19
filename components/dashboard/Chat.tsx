@@ -37,7 +37,13 @@ export const Chat = ({ id, name, onClick, active, onEdit }: Props) => {
         {truncatedName}
       </div>
 
-      <div onClick={() => setIsEditing(true)}>
+      <div
+        onClick={() => setIsEditing(true)}
+        onTouchStart={(e) => {
+          e.preventDefault();
+          setIsEditing(true);
+        }}
+      >
         <Edit2 className="w-4 h-4" />
       </div>
 

@@ -34,7 +34,7 @@ export const Dashboard = ({ userEmail }: Props) => {
 
   return (
     <DashboardProvider>
-      <div className="p-4 h-full w-full flex gap-4 relative">
+      <div className="p-4 h-full w-full flex sm:gap-4 relative">
         <div className={`${isSidebarOpen ? "w-1/3" : ""}`}>
           {/* Hamburger menu for mobile */}
           {!isSidebarOpen && (

@@ -31,7 +31,7 @@ export function ChatNameEditDialog({ open, name, chatId, onClose }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-[300px] sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit chat name</DialogTitle>
         </DialogHeader>

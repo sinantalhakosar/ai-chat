@@ -51,27 +51,27 @@ const ApiKeyItem = ({
   deleteApiKey,
 }: ApiKeyItemProps) => {
   return (
-    <div className="flex items-center w-full gap-4 mb-4">
+    <div className="flex flex-col items-start w-full gap-4 mb-4">
       <p className="font-semibold">{mapProviderToApiKeyName(provider.key)}</p>
-      <p className="text-sm text-gray-500">{maskApiKey(provider.value)}</p>
+      <div className="flex items-center justify-between w-full gap-4">
+        <p className="text-sm text-gray-500">{maskApiKey(provider.value)}</p>
 
-      <div className="ml-auto space-x-2">
-        <IconButton
-          onClick={() => {
-            setSelectedProvider(provider.key);
-            setNewApiValue(provider.value);
-          }}
-          variant="outline"
-          size="sm"
-          icon={PencilIcon}
-        />
+        <div>
+          <IconButton
+            onClick={() => {
+              setSelectedProvider(provider.key);
+              setNewApiValue(provider.value);
+            }}
+            size="sm"
+            icon={PencilIcon}
+          />
 
-        <IconButton
-          onClick={() => deleteApiKey(provider.key)}
-          variant="destructive"
-          size="sm"
-          icon={TrashIcon}
-        />
+          <IconButton
+            onClick={() => deleteApiKey(provider.key)}
+            size="sm"
+            icon={TrashIcon}
+          />
+        </div>
       </div>
     </div>
   );

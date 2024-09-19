@@ -74,15 +74,17 @@ export default function ApiKeysPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-4/5 bg-[#303236] rounded-3xl items-center py-8">
-      <div className="p-4 w-3/4 flex justify-start items-center gap-2 hover:cursor-pointer">
+    <div className="flex flex-col items-center sm:w-1/2 h-screen gap-4 mt-4">
+      <div className="w-full flex items-center justify-start bg-[#202020] rounded-2xl px-8 py-4 gap-2">
         <ArrowLeft />
-        <Link href="/dashboard" className="hover:underline">Back to chat</Link>
+        <Link href="/dashboard" className="hover:underline">
+          Back to chat
+        </Link>
       </div>
 
-      <div className="p-4 w-3/4">
-      <h1 className="text-2xl font-bold mb-4">Add new API Key</h1>
-      
+      <div className="bg-[#202020] rounded-2xl w-full p-8">
+        <h1 className="text-2xl font-bold mb-4">Add new API Key</h1>
+
         <ApiKeyUpsert
           selectedProvider={selectedProvider}
           setSelectedProvider={setSelectedProvider}
@@ -92,7 +94,7 @@ export default function ApiKeysPage() {
         />
       </div>
 
-      <div className="p-4 w-3/4">
+      <div className="bg-[#202020] rounded-2xl w-full p-8">
         <h1 className="text-2xl font-bold mb-4">API Key List</h1>
 
         {providers.length > 0 ? (

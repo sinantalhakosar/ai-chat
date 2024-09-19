@@ -61,10 +61,12 @@ export default function ResetPasswordForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-md">New Password</FormLabel>
+
               <FormControl>
                 <Input
                   {...field}
                   type="password"
+                  className="dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
                   placeholder="Enter your new password"
                   onCopy={preventCopyPaste}
                   onPaste={preventCopyPaste}
@@ -75,19 +77,23 @@ export default function ResetPasswordForm() {
                   spellCheck="false"
                 />
               </FormControl>
+
               <UiFormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-md">Confirm New Password</FormLabel>
+
               <FormControl>
                 <Input
                   {...field}
+                  className="dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
                   type="password"
                   placeholder="Confirm your new password"
                   onCopy={preventCopyPaste}
@@ -95,24 +101,28 @@ export default function ResetPasswordForm() {
                   onCut={preventCopyPaste}
                 />
               </FormControl>
+
               <UiFormMessage />
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={form.formState.isSubmitting}
-        >
-          {form.formState.isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Resetting...
-            </>
-          ) : (
-            "Reset Password"
-          )}
-        </Button>
+
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="bg-slate-700 hover:bg-slate-600"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Resetting...
+              </>
+            ) : (
+              "Reset Password"
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );
