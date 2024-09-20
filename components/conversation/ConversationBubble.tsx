@@ -3,7 +3,6 @@
 import { useAnimatedTyping } from "@/hooks/useAnimatedTyping";
 import { cn } from "@/lib/utils";
 import { Message } from "ai/react/dist";
-import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 interface ConversationBubbleProps {

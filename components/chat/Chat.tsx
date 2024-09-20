@@ -39,63 +39,76 @@ export const Chat = ({
     : "Untitled";
 
   return (
-    <div
-      className={cn(
-        active
-          ? "bg-[#4C4C4C]"
-          : "relative flex flex-row justify-between cursor-pointer py-2 pl-4 pr-2 hover:bg-[#4C4C4C] rounded-lg"
-      )}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(id);
-      }}
-      onTouchStart={(e) => {
-        e.preventDefault();
-        onClick(id);
-      }}
-    >
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-400 rounded-l-lg"></div>
-      <div className="flex flex-grow justify-between items-center text-sm font-medium">
-        {truncatedName}
+    <>
+      <div
+        className={cn(
+          "relative flex flex-row items-center justify-between cursor-pointer py-2 ml-2 px-2 rounded-lg whitespace-nowrap overflow-hidden",
+          active ? "bg-[#4C4C4C]" : "hover:bg-[#4C4C4C]"
+        )}
+        onClick={(e) => {
+          e.preventDefault();
+          onClick(id);
+        }}
+      >
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-400 rounded-l-lg"></div>
+        <div className="flex flex-grow justify-between items-center text-sm font-medium pl-2">
+          {truncatedName}
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={(e) => e.stopPropagation()}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+            >
+              <MoreHorizontal className="h-4 w-4" />
+              <span className="sr-only">More</span>
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            align="start"
+            className="z-50 dark:bg-[#202020] flex flex-col p-2"
+          >
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditDialogOpen(true);
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setEditDialogOpen(true);
+              }}
+              className="flex items-center gap-2"
+            >
+              <Edit2 className="w-4 h-4" />
+              <span>Edit chat name</span>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                setDeleteDialogOpen(true);
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setDeleteDialogOpen(true);
+              }}
+              className="flex items-center gap-2"
+            >
+              <Trash className="w-4 h-4" />
+              <span>Delete chat</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm">
-            <MoreHorizontal className="h-4 w-4" />
-            <span className="sr-only">More</span>
-          </Button>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent
-          align="start"
-          className="z-50 dark:bg-[#202020] flex flex-col p-2"
-        >
-          <DropdownMenuItem
-            onClick={() => setEditDialogOpen(true)}
-            onTouchStart={(e) => {
-              e.preventDefault();
-              setEditDialogOpen(true);
-            }}
-            className="flex items-center gap-2"
-          >
-            <Edit2 className="w-4 h-4" />
-            <span>Edit chat name</span>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={() => setDeleteDialogOpen(true)}
-            onTouchStart={(e) => {
-              e.preventDefault();
-              setDeleteDialogOpen(true);
-            }}
-            className="flex items-center gap-2"
-          >
-            <Trash className="w-4 h-4" />
-            <span>Delete chat</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
 
       <ChatNameEditDialog
         name={name}
@@ -119,6 +132,6 @@ export const Chat = ({
           onDelete();
         }}
       />
-    </div>
+    </>
   );
 };

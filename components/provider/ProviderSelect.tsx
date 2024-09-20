@@ -1,16 +1,20 @@
 import { mapProviderToName } from "@/utils/mapProviderToName";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { Command, CommandItem, CommandList } from "@/components/ui/Command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import { useState } from "react";
-import { availableProviders } from "@/data/aiModelsAndProviders";
 import { useMediaQuery } from "react-responsive";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/Drawer";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import { Provider } from "@/types/Common.types";
 import { getProviderLogo } from "@/utils/getProviderLogo";
+import { ProviderContent } from "@/components/provider/ProviderContent";
+import { motion } from "framer-motion";
 
 export const ProviderSelect = () => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
@@ -51,11 +55,17 @@ export const ProviderSelect = () => {
               />
               {selectedProviderName}
             </div>
-            <ChevronDown className="w-4 h-4" />
+
+            <motion.div
+              animate={{ rotate: open ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ChevronDown className="w-4 h-4" />
+            </motion.div>
           </div>
         </PopoverTrigger>
         <PopoverContent className="w-[300px] p-0" align="start">
-          <Content handleProviderClick={handleProviderClick} />
+          <ProviderContent handleProviderClick={handleProviderClick} />
         </PopoverContent>
       </Popover>
     );
@@ -75,44 +85,18 @@ export const ProviderSelect = () => {
             />
             {selectedProviderName}
           </div>
-          <ChevronDown className="w-4 h-4" />
+
+          <motion.div
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ChevronDown className="w-4 h-4" />
+          </motion.div>
         </div>
       </DrawerTrigger>
       <DrawerContent className="">
-        <Content handleProviderClick={handleProviderClick} />
+        <ProviderContent handleProviderClick={handleProviderClick} />
       </DrawerContent>
     </Drawer>
-  );
-};
-
-const Content = ({
-  handleProviderClick,
-}: {
-  handleProviderClick: (provider: Provider) => void;
-}) => {
-  return (
-    <Command className="border border-[#4C4C4C] dark:bg-[#202020] z-50 mb-1">
-      <CommandList>
-        {availableProviders.map((provider) => (
-          <CommandItem
-            key={provider}
-            className="flex items-center gap-4 py-4 cursor-pointer"
-            value={provider}
-            onSelect={(value) => handleProviderClick(value as Provider)}
-          >
-            <Image
-              src={getProviderLogo(provider)}
-              alt="AI Chat Assistant"
-              width={30}
-              height={30}
-              className="rounded-lg max-w-full h-auto"
-            />
-            <span className="whitespace-nowrap">
-              {mapProviderToName(provider)}
-            </span>
-          </CommandItem>
-        ))}
-      </CommandList>
-    </Command>
   );
 };

@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { Dashboard } from "./Dashboard";
+import { Dashboard } from "@/components/Dashboard";
 
 export default async function ProtectedPage() {
   const supabase = createClient();

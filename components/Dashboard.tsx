@@ -4,44 +4,25 @@ import { ChatList } from "@/components/chat/ChatList";
 import { DashboardProvider } from "@/contexts/DashboardContext";
 import Conversation from "@/components/conversation/Conversation";
 import { User } from "@supabase/supabase-js";
-import { ProviderSelect } from "@/components/ProviderSelect";
-import { Menu } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ProviderSelect } from "@/components/provider/ProviderSelect";
+import { ArrowLeft, Menu } from "lucide-react";
+import { useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { cn } from "@/lib/utils";
+import { useClientSide } from "@/hooks/useClientSide";
 
 interface Props {
   userEmail: User["email"];
 }
 
 export const Dashboard = ({ userEmail }: Props) => {
+  const isClient = useClientSide();
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        !isDesktop &&
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        setIsSidebarOpen(false);
-      }
-    };
-
-    // to not call this function on desktop
-    if (!isDesktop) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      if (!isDesktop) {
-        document.removeEventListener("mousedown", handleClickOutside);
-      }
-    };
-  }, [isDesktop]);
+  if (!isClient) return null;
 
   return (
     <DashboardProvider>
@@ -69,7 +50,18 @@ export const Dashboard = ({ userEmail }: Props) => {
               p-4 md:p-0`
             )}
           >
+            {!isDesktop && (
+              <div
+                className="flex items-center gap-2"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <ArrowLeft className="cursor-pointer" />
+                <span className="text-sm font-medium">Close</span>
+              </div>
+            )}
+
             <ProviderSelect />
+
             <ChatList onChatClick={() => setIsSidebarOpen(false)} />
           </div>
         </div>

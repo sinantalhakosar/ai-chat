@@ -12,7 +12,7 @@ export const EmptyConversation = () => {
 
   return (
     <div className=" flex justify-center items-center w-full h-screen">
-      <div className="bg-[#202020] w-full sm:w-3/4 2xl:w-1/2 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
+      <div className="bg-[#202020] w-4/5 sm:w-3/4 2xl:w-1/2 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
         <Image
           src={providerLogoUrl}
           alt="AI Chat Assistant"
@@ -21,7 +21,7 @@ export const EmptyConversation = () => {
           className="rounded-lg max-w-full h-auto"
         />
 
-        <p className="text-slate-50 text-lg whitespace-nowrap">
+        <p className="text-slate-50 text-lg text-center">
           How can I help you today?
         </p>
 

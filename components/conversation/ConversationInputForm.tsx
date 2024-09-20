@@ -8,6 +8,7 @@ import Image from "next/image";
 import { getProviderLogo } from "@/utils/getProviderLogo";
 import { Provider } from "@/types/Common.types";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface Props {
   handleMessageSubmit: (e: FormEvent<HTMLFormElement>) => void;
@@ -42,7 +43,7 @@ export const ConversationInputForm = ({
     <form
       onSubmit={handleMessageSubmit}
       className={cn(
-        isDesktop ? "mb-3" : "mb-28",
+        isDesktop ? "mb-3" : "mb-3",
         "mt-auto flex flex-col items-center justify-center relative w-full"
       )}
     >
@@ -71,21 +72,25 @@ export const ConversationInputForm = ({
         </div>
         <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex">
           {isResponseLoading ? (
-            <IconButton
-              type="button"
-              icon={Square}
-              size="sm"
-              onClick={() => stop()}
-              iconClassName="text-black"
-            />
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+              <IconButton
+                type="button"
+                icon={Square}
+                size="sm"
+                onClick={() => stop()}
+                iconClassName="text-black"
+              />
+            </motion.div>
           ) : (
-            <IconButton
-              type="submit"
-              icon={Send}
-              size="sm"
-              disabled={loading || error !== undefined}
-              iconClassName="text-black"
-            />
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+              <IconButton
+                type="submit"
+                icon={Send}
+                size="sm"
+                disabled={loading || error !== undefined}
+                iconClassName="text-black"
+              />
+            </motion.div>
           )}
         </div>
       </div>
