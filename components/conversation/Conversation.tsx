@@ -28,7 +28,6 @@ export default function Conversation({ userEmail }: Props) {
   const { toast } = useToast();
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [chatSummary, setChatSummary] = useState("");
 
@@ -76,11 +75,6 @@ export default function Conversation({ userEmail }: Props) {
 
   const validKey = validateApiKey(selectedProvider);
   const modelListBasedOnProvider = getProviderModalList(selectedProvider);
-
-  // hack: to escape hydration error
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     // Clear the input when the provider changes
@@ -190,8 +184,6 @@ export default function Conversation({ userEmail }: Props) {
       }
     }
   };
-
-  if (!mounted) return null;
 
   if (!validKey) {
     return <NoValidApiKey />;
