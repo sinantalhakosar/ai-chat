@@ -14,7 +14,7 @@ interface Props {
   modelList: Array<Model>;
   selectedModel: Model;
   setSelectedModel: (model: Model) => void;
-  userEmail: User['email'];
+  userEmail: User["email"];
 }
 
 export const ConversationInfoTab = ({
@@ -28,7 +28,7 @@ export const ConversationInfoTab = ({
   return (
     <div className="mb-4 w-full flex justify-between pl-8 sm:pl-0">
       <div></div>
-      <div className={`${isDesktop ? "w-1/3" : "w-3/4"}`}>
+      <div className={isDesktop ? "w-1/3" : "w-3/4"}>
         <Select
           onValueChange={(value) => {
             setSelectedModel(value as Model);

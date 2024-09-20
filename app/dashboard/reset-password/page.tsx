@@ -1,5 +1,5 @@
 import { FormMessage, Message } from "@/components/common/FormMessage";
-import ResetPasswordForm from "@/components/dashboard/reset-password/ResetPasswordForm";
+import ResetPasswordForm from "@/components/reset-password/ResetPasswordForm";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 

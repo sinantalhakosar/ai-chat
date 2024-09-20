@@ -1,17 +1,17 @@
 "use client";
 
 import { useDashboard } from "@/contexts/DashboardContext";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ChatType, Provider } from "@/types/Common.types";
-import { Chat } from "@/components/dashboard/Chat";
+import { useMemo, useState } from "react";
+import { ChatType } from "@/types/Common.types";
+import { Chat } from "@/components/chat/Chat";
 import { Input } from "@/components/ui/Input";
 import { Plus, Search } from "lucide-react";
-import { fetchChatList } from "@/utils/api/fetchChatList";
 import { createChat } from "@/utils/api/createChat";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
 import { updateChatName } from "@/utils/api/updateChatName";
 import { deleteChat } from "@/utils/api/deleteChat";
+import { useChatList } from "@/hooks/useChatList";
 
 interface Props {
   onChatClick: () => void;
@@ -23,8 +23,11 @@ export const ChatList = ({ onChatClick }: Props) => {
   const { selectedProvider, selectedChatId, setSelectedChatId } =
     useDashboard();
 
-  const [loading, setLoading] = useState(false);
-  const [chatList, setChatList] = useState<Array<ChatType>>([]);
+  const { chatList, loading, setChatList, getChatList } = useChatList({
+    selectedProvider,
+    selectedChatId,
+  });
+
   const [search, setSearch] = useState("");
 
   const filteredChatList = useMemo(() => {
@@ -32,37 +35,6 @@ export const ChatList = ({ onChatClick }: Props) => {
       (chat.name?.toLowerCase() ?? "").includes(search.toLowerCase())
     );
   }, [chatList, search]);
-
-  const getChatList = useCallback(
-    async (selectedProvider: Provider) => {
-      try {
-        const data = await fetchChatList(selectedProvider);
-        setChatList(data);
-      } catch (error) {
-        toast({
-          title: "Error loading chat list",
-          description: "Please try again later",
-          variant: "destructive",
-        });
-      }
-    },
-    [toast]
-  );
-
-  // the reason of 2 useEffect is that, only when we select different provider, we need to show loading due to UX
-  useEffect(() => {
-    setLoading(true);
-    getChatList(selectedProvider).finally(() => {
-      setLoading(false);
-    });
-  }, [getChatList, selectedProvider]);
-
-  useEffect(() => {
-    if (selectedChatId) {
-      getChatList(selectedProvider);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getChatList, selectedChatId]);
 
   const handleChatClick = (chatId: ChatType["id"]) => {
     setSelectedChatId(chatId);

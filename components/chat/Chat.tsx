@@ -1,7 +1,7 @@
 import { ChatType } from "@/types/Common.types";
 import { Edit2, MoreHorizontal, Trash } from "lucide-react";
 import { useState } from "react";
-import { ChatNameEditDialog } from "@/components/dashboard/ChatNameEditDialog";
+import { ChatNameEditDialog } from "@/components/chat/ChatNameEditDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
-import { ChatDeleteDialog } from "@/components/dashboard/ChatDeleteDialog";
+import { ChatDeleteDialog } from "@/components/chat/ChatDeleteDialog";
+import { cn } from "@/lib/utils";
 
 interface Props {
   id: ChatType["id"];
@@ -39,7 +40,11 @@ export const Chat = ({
 
   return (
     <div
-      className={`relative flex flex-row justify-between cursor-pointer py-2 pl-4 pr-2 hover:bg-[#4C4C4C] rounded-lg ${active ? "bg-[#4C4C4C]" : ""}`}
+      className={cn(
+        active
+          ? "bg-[#4C4C4C]"
+          : "relative flex flex-row justify-between cursor-pointer py-2 pl-4 pr-2 hover:bg-[#4C4C4C] rounded-lg"
+      )}
       onClick={(e) => {
         e.preventDefault();
         onClick(id);

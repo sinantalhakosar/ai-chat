@@ -2,48 +2,35 @@
 
 import { Message, useChat } from "ai/react";
 import { useDashboard } from "@/contexts/DashboardContext";
-import { IconButton } from "@/components/ui/IconButton";
-import { Copy, KeyRound, RefreshCcw, Send, Square } from "lucide-react";
-import { ConversationInfoTab } from "@/components/dashboard/ConversationInfoTab";
-import { ConversationBubble } from "@/components/dashboard/ConversationBubble";
+import { ConversationInfoTab } from "@/components/conversation/ConversationInfoTab";
 import { FormEvent, useEffect, useState } from "react";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import { fetchMessages } from "@/utils/api/fetchMessages";
 import { createMessage } from "@/utils/api/createMessage";
 import { createChat } from "@/utils/api/createChat";
-import { Skeleton } from "@/components/ui/Skeleton";
-import { times } from "lodash";
 import { deleteLastMessageFromChat } from "@/utils/api/deleteLastMessageFromChat";
 import { useToast } from "@/hooks/useToast";
 import { validateApiKey } from "@/utils/validateApiKey";
-import { Button } from "@/components/ui/Button";
-import { mapProviderToName } from "@/utils/mapProviderToName";
-import Link from "next/link";
 import { updateChatSummary } from "@/utils/supabase/updateChatSummary";
-import { Input } from "@/components/ui/Input";
 import { useMediaQuery } from "react-responsive";
-import Image from "next/image";
-import { EmptyChat } from "@/components/dashboard/EmptyChat";
 import { User } from "@supabase/supabase-js";
-import { getProviderLogo } from "@/utils/getProviderLogo";
+import { NoValidApiKey } from "@/components/conversation/NoValidApiKey";
+import { ConversationInputForm } from "@/components/conversation/ConversationInputForm";
+import { ConversationMessages } from "@/components/conversation/ConversationMessages";
+
+const chatApi = "/api/chat";
 
 interface Props {
   userEmail: User["email"];
 }
 
 export default function Conversation({ userEmail }: Props) {
+  const { toast } = useToast();
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [chatSummary, setChatSummary] = useState("");
-
-  // hack: to escape hydration error
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const { toast } = useToast();
 
   const {
     selectedChatId,
@@ -65,7 +52,7 @@ export default function Conversation({ userEmail }: Props) {
     error,
     reload,
   } = useChat({
-    api: "/api/chat",
+    api: chatApi,
     initialInput: chatSummary,
     body: {
       model: selectedModel,
@@ -89,6 +76,11 @@ export default function Conversation({ userEmail }: Props) {
 
   const validKey = validateApiKey(selectedProvider);
   const modelListBasedOnProvider = getProviderModalList(selectedProvider);
+
+  // hack: to escape hydration error
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     // Clear the input when the provider changes
@@ -202,25 +194,7 @@ export default function Conversation({ userEmail }: Props) {
   if (!mounted) return null;
 
   if (!validKey) {
-    const providerName = mapProviderToName(selectedProvider);
-
-    return (
-      <div className=" flex justify-center items-center w-full h-screen">
-        <div className="bg-[#202020] w-full sm:w-3/4 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
-          <KeyRound size={32} className="text-red-500" />
-
-          <p className="text-slate-50 text-lg text-center">
-            No valid API key found for {providerName}
-          </p>
-
-          <Link href="/dashboard/api-keys">
-            <Button className="bg-slate-700 text-slate-50">
-              Manage API Keys
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
+    return <NoValidApiKey />;
   }
 
   return (
@@ -232,99 +206,25 @@ export default function Conversation({ userEmail }: Props) {
         userEmail={userEmail}
       />
 
-      <div className="overflow-y-auto">
-        {loading ? (
-          times(8).map((i) => (
-            <Skeleton
-              key={i}
-              className={`w-[400px] h-[50px] rounded-full bg-[#2f333c] ${i % 2 === 0 ? "ml-auto" : ""}`}
-            />
-          ))
-        ) : messages.length === 0 ? (
-          <EmptyChat />
-        ) : (
-          messages.map((m) => (
-            <div key={m.id} className="flex flex-col mb-4">
-              <ConversationBubble
-                content={m.content}
-                type={m.role}
-                isTyping={
-                  m.role === "assistant" &&
-                  m.id === messages[messages.length - 1].id &&
-                  isResponseLoading
-                }
-              />
-              {m.role === "assistant" && (
-                <div>
-                  {m.id === messages[messages.length - 1].id && (
-                    <IconButton
-                      icon={RefreshCcw}
-                      disableHover
-                      onClick={handleRegenerateClick}
-                    />
-                  )}
-                  <IconButton
-                    icon={Copy}
-                    disableHover
-                    onClick={() => handleCopyClick(m.content)}
-                  />
-                </div>
-              )}
-            </div>
-          ))
-        )}
-      </div>
+      <ConversationMessages
+        messages={messages}
+        loading={loading}
+        isResponseLoading={isResponseLoading}
+        handleRegenerateClick={handleRegenerateClick}
+        handleCopyClick={handleCopyClick}
+      />
 
-      <form
-        onSubmit={handleMessageSubmit}
-        className={`mt-auto ${isDesktop ? "mb-3" : "mb-28"} flex flex-col items-center justify-center relative w-full`}
-      >
-        <div className="relative w-full">
-          <div className="relative">
-            <Image
-              src={getProviderLogo(selectedProvider, true)}
-              alt="AI Chat Assistant"
-              width={20}
-              height={20}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2"
-            />
-
-            <Input
-              className="dark:bg-slate-100 text-black pl-10 pr-20 dark:placeholder:text-zinc-700"
-              value={input}
-              placeholder="Say something..."
-              onChange={handleInputChange}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleMessageSubmit(
-                    e as unknown as FormEvent<HTMLFormElement>
-                  );
-                }
-              }}
-            />
-          </div>
-          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex">
-            {isResponseLoading ? (
-              <IconButton
-                type="button"
-                icon={Square}
-                size="sm"
-                onClick={() => stop()}
-                iconClassName="text-black"
-              />
-            ) : (
-              <IconButton
-                type="submit"
-                icon={Send}
-                size="sm"
-                disabled={loading || error !== undefined}
-                iconClassName="text-black"
-              />
-            )}
-          </div>
-        </div>
-      </form>
+      <ConversationInputForm
+        handleMessageSubmit={handleMessageSubmit}
+        isDesktop={isDesktop}
+        selectedProvider={selectedProvider}
+        input={input}
+        handleInputChange={handleInputChange}
+        isResponseLoading={isResponseLoading}
+        loading={loading}
+        error={error}
+        stop={stop}
+      />
     </div>
   );
 }

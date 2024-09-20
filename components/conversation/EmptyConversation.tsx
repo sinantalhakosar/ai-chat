@@ -4,7 +4,7 @@ import { Files, Sparkles, Split } from "lucide-react";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 
-export const EmptyChat = () => {
+export const EmptyConversation = () => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
   const { selectedProvider } = useDashboard();
 

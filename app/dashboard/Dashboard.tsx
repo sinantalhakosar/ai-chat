@@ -1,13 +1,14 @@
 "use client";
 
-import { ChatList } from "@/components/dashboard/ChatList";
+import { ChatList } from "@/components/chat/ChatList";
 import { DashboardProvider } from "@/contexts/DashboardContext";
-import Conversation from "@/components/dashboard/Conversation";
+import Conversation from "@/components/conversation/Conversation";
 import { User } from "@supabase/supabase-js";
-import { ProviderSelect } from "@/components/dashboard/ProviderSelect";
+import { ProviderSelect } from "@/components/ProviderSelect";
 import { Menu } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { cn } from "@/lib/utils";
 
 interface Props {
   userEmail: User["email"];
@@ -45,8 +46,7 @@ export const Dashboard = ({ userEmail }: Props) => {
   return (
     <DashboardProvider>
       <div className="p-4 h-full w-full flex sm:gap-4 relative">
-        <div className={`${isSidebarOpen ? "w-1/3" : ""}`}>
-          
+        <div className={isSidebarOpen ? "w-1/3" : ""}>
           {/* For mobile */}
           {!isSidebarOpen && (
             <button
@@ -59,15 +59,15 @@ export const Dashboard = ({ userEmail }: Props) => {
 
           <div
             ref={sidebarRef}
-            className={`
-          flex flex-col gap-3
-          fixed md:static top-0 left-0 h-full
-          transition-transform duration-300 ease-in-out
-          md:transform-none
-          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          md:bg-transparent z-10 md:z-auto
-          p-4 md:p-0
-        `}
+            className={cn(
+              isSidebarOpen ? "translate-x-0" : "-translate-x-full",
+              `flex flex-col gap-3
+              fixed md:static top-0 left-0 h-full
+              transition-transform duration-300 ease-in-out
+              md:transform-none
+              md:bg-transparent z-10 md:z-auto
+              p-4 md:p-0`
+            )}
           >
             <ProviderSelect />
             <ChatList onChatClick={() => setIsSidebarOpen(false)} />

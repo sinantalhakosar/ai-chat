@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, ButtonProps } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 
 interface Props extends ButtonProps {
@@ -20,13 +21,8 @@ export const IconButton = ({
   ...rest
 }: Omit<Props, "text">) => {
   return (
-    <Button
-      variant="icon"
-      size="icon"
-      onClick={onClick}
-      {...rest}
-    >
-      <Icon className={`h-5 w-5 ${iconClassName}`}/>
+    <Button variant="icon" size="icon" onClick={onClick} {...rest}>
+      <Icon className={cn("h-5 w-5", iconClassName)} />
     </Button>
   );
 };
