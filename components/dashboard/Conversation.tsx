@@ -95,6 +95,13 @@ export default function Conversation({ userEmail }: Props) {
   useEffect(() => {
     const loadMessages = async () => {
       setLoading(true);
+      if (!selectedChatId) {
+        setMessages([]);
+        setChatSummary("");
+        setLoading(false);
+        return;
+      }
+
       const { messages, chatSummary } = await fetchMessages(selectedChatId);
 
       const fetchedMessages = messages.map((m) => {
@@ -138,10 +145,9 @@ export default function Conversation({ userEmail }: Props) {
       chatId = data.id;
     }
 
-    await handleSubmit(e);
+    await createMessage(chatId, input, "user");
 
-    const userMessage = input;
-    await createMessage(chatId, userMessage, "user");
+    handleSubmit(e);
   };
 
   const handleCopyClick = (content: string) => {

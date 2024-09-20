@@ -8,24 +8,21 @@ import {
 } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { ChatType } from "@/types/Common.types";
-import { updateChatName } from "@/utils/api/updateChatName";
 import { useState } from "react";
 
 interface Props {
   open: boolean;
   name: string;
-  chatId: ChatType["id"];
   onClose: () => void;
+  onEdit: (name: string) => void;
 }
 
-export function ChatNameEditDialog({ open, name, chatId, onClose }: Props) {
+export function ChatNameEditDialog({ open, name, onEdit, onClose }: Props) {
   const [editingName, setEditingName] = useState(name);
 
   const handleChatNameChange = async () => {
     if (editingName && editingName.trim() !== "") {
-      await updateChatName(chatId, editingName);
-      onClose();
+      onEdit(editingName);
     }
   };
 
@@ -43,7 +40,6 @@ export function ChatNameEditDialog({ open, name, chatId, onClose }: Props) {
             </Label>
             <Input
               id="name"
-              defaultValue={name}
               className="col-span-3"
               value={editingName}
               onChange={(e) => setEditingName(e.target.value)}

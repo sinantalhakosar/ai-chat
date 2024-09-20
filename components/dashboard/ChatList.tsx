@@ -10,6 +10,8 @@ import { fetchChatList } from "@/utils/api/fetchChatList";
 import { createChat } from "@/utils/api/createChat";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
+import { updateChatName } from "@/utils/api/updateChatName";
+import { deleteChat } from "@/utils/api/deleteChat";
 
 interface Props {
   onChatClick: () => void;
@@ -79,8 +81,47 @@ export const ChatList = ({ onChatClick }: Props) => {
     }
   };
 
-  const handleChatNameChange = async () => {
-    await getChatList(selectedProvider);
+  const handleChatNameChange = async (
+    chatId: ChatType["id"],
+    editingName: string
+  ) => {
+    try {
+      await updateChatName(chatId, editingName);
+      await getChatList(selectedProvider);
+
+      toast({
+        title: "Chat name updated",
+        description: "Chat name updated successfully",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error updating chat name",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleChatDelete = async (chatId: ChatType["id"]) => {
+    try {
+      await deleteChat(chatId);
+      await getChatList(selectedProvider);
+      
+      setSelectedChatId(null);
+      toast({
+        title: "Chat deleted",
+        description: "Chat deleted successfully",
+        variant: "default",
+      });
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+      toast({
+        title: "Error deleting chat",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -106,7 +147,8 @@ export const ChatList = ({ onChatClick }: Props) => {
               name={chat.name ?? "Untitled"}
               onClick={handleChatClick}
               active={chat.id === selectedChatId}
-              onEdit={handleChatNameChange}
+              onEdit={(name) => handleChatNameChange(chat.id, name)}
+              onDelete={() => handleChatDelete(chat.id)}
             />
           ))
         ) : (
