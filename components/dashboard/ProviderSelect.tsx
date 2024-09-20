@@ -1,4 +1,4 @@
-import { getProviderLogo, mapProviderToName } from "@/utils/mapProviderToName";
+import { mapProviderToName } from "@/utils/mapProviderToName";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
@@ -10,6 +10,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/Drawer";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { getProviderModalList } from "@/utils/getProviderModalList";
 import { Provider } from "@/types/Common.types";
+import { getProviderLogo } from "@/utils/getProviderLogo";
 
 export const ProviderSelect = () => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
@@ -21,6 +22,9 @@ export const ProviderSelect = () => {
     setSelectedModel,
     setSelectedChatId,
   } = useDashboard();
+
+  const selectedProviderLogoUrl = getProviderLogo(selectedProvider);
+  const selectedProviderName = mapProviderToName(selectedProvider);
 
   const handleProviderClick = (provider: Provider) => {
     setSelectedProvider(provider);
@@ -39,13 +43,13 @@ export const ProviderSelect = () => {
           <div className="bg-[#202020] rounded-2xl flex items-center justify-between gap-2 p-3 cursor-pointer">
             <div className="flex items-center gap-2">
               <Image
-                src={getProviderLogo(selectedProvider)}
+                src={selectedProviderLogoUrl}
                 alt="AI Chat Assistant"
                 width={30}
                 height={30}
                 className="rounded-lg max-w-full h-auto"
               />
-              {mapProviderToName(selectedProvider)}
+              {selectedProviderName}
             </div>
             <ChevronDown className="w-4 h-4" />
           </div>
@@ -63,13 +67,13 @@ export const ProviderSelect = () => {
         <div className="bg-[#202020] rounded-2xl flex items-center justify-between gap-2 p-3 cursor-pointer">
           <div className="flex items-center gap-2">
             <Image
-              src={getProviderLogo(selectedProvider)}
+              src={selectedProviderLogoUrl}
               alt="AI Chat Assistant"
               width={30}
               height={30}
               className="rounded-lg max-w-full h-auto"
             />
-            {mapProviderToName(selectedProvider)}
+            {selectedProviderName}
           </div>
           <ChevronDown className="w-4 h-4" />
         </div>

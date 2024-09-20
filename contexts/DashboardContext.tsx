@@ -14,7 +14,11 @@ const DashboardContext = createContext<DashboardContextType | undefined>(
   undefined
 );
 
-export function DashboardProvider({ children }: { children: ReactNode }) {
+interface Props {
+  children: ReactNode;
+}
+
+export function DashboardProvider({ children }: Props) {
   const [selectedProvider, setSelectedProvider] = useState<Provider>("openAI");
   const [selectedModel, setSelectedModel] = useState<Model>("gpt-4o-mini");
   const [selectedChatId, setSelectedChatId] = useState<ChatType["id"] | null>(

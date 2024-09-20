@@ -9,7 +9,6 @@ export async function deleteChat(chatId: number): Promise<void> {
       throw new Error(errorData.error || "Failed to delete chat");
     }
   } catch (error) {
-    console.error("Error deleting chat:", error);
     throw error;
   }
 }

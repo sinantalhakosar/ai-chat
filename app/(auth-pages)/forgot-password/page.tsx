@@ -22,11 +22,13 @@ import { Button } from "@/components/ui/Button";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/useToast";
 
+interface Props {
+  searchParams: Message;
+}
+
 export default function ForgotPassword({
   searchParams,
-}: {
-  searchParams: Message;
-}) {
+}: Props) {
   const { toast } = useToast();
 
   const form = useForm<ForgotPasswordFormValues>({

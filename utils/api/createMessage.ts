@@ -18,7 +18,6 @@ export async function createMessage(chatId: number, content: string, sender: str
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error creating new message:", error);
     throw error;
   }
 }

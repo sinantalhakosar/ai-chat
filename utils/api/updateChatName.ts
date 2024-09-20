@@ -18,7 +18,6 @@ export async function updateChatName(chatId: number, newName: string): Promise<C
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error updating chat name:", error);
     throw error;
   }
 }

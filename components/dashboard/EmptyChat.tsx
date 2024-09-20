@@ -1,5 +1,5 @@
 import { useDashboard } from "@/contexts/DashboardContext";
-import { getProviderLogo } from "@/utils/mapProviderToName";
+import { getProviderLogo } from "@/utils/getProviderLogo";
 import { Files, Sparkles, Split } from "lucide-react";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
@@ -8,18 +8,22 @@ export const EmptyChat = () => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
   const { selectedProvider } = useDashboard();
 
+  const providerLogoUrl = getProviderLogo(selectedProvider);
+
   return (
     <div className=" flex justify-center items-center w-full h-screen">
       <div className="bg-[#202020] w-full sm:w-3/4 2xl:w-1/2 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
         <Image
-          src={getProviderLogo(selectedProvider)}
+          src={providerLogoUrl}
           alt="AI Chat Assistant"
           width={30}
           height={30}
           className="rounded-lg max-w-full h-auto"
         />
 
-        <p className="text-slate-50 text-lg whitespace-nowrap">How can I help you today?</p>
+        <p className="text-slate-50 text-lg whitespace-nowrap">
+          How can I help you today?
+        </p>
 
         <p className="text-slate-400 text-md text-center">
           Innovative application that showcases an AI-powered chat interface

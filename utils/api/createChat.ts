@@ -18,7 +18,6 @@ export async function createChat(selectedProvider: Provider): Promise<ChatType> 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error creating new chat:", error);
     throw error;
   }
 }

@@ -3,11 +3,11 @@ import ResetPasswordForm from "@/components/dashboard/reset-password/ResetPasswo
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default async function ResetPassword({
-  searchParams,
-}: {
+interface Props {
   searchParams: Message;
-}) {
+}
+
+export default async function ResetPassword({ searchParams }: Props) {
   return (
     <div className="flex flex-col items-center sm:w-1/2 h-screen gap-4 mt-4">
       <div className="w-full flex items-center justify-start bg-[#202020] rounded-2xl px-8 py-4 gap-2">

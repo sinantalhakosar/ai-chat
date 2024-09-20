@@ -39,7 +39,6 @@ export const ChatList = ({ onChatClick }: Props) => {
         const data = await fetchChatList(selectedProvider);
         setChatList(data);
       } catch (error) {
-        console.error("Error loading chat list:", error);
         toast({
           title: "Error loading chat list",
           description: "Please try again later",
@@ -76,8 +75,11 @@ export const ChatList = ({ onChatClick }: Props) => {
       setChatList((prevList) => [data, ...prevList]);
       setSelectedChatId(data.id);
     } catch (error) {
-      console.error("Error creating new chat:", error);
-      alert("Failed to create new chat");
+      toast({
+        title: "Error creating new chat",
+        description: "Please try again later",
+        variant: "destructive",
+      });
     }
   };
 
@@ -107,7 +109,7 @@ export const ChatList = ({ onChatClick }: Props) => {
     try {
       await deleteChat(chatId);
       await getChatList(selectedProvider);
-      
+
       setSelectedChatId(null);
       toast({
         title: "Chat deleted",
@@ -115,7 +117,6 @@ export const ChatList = ({ onChatClick }: Props) => {
         variant: "default",
       });
     } catch (error) {
-      console.error("Error deleting chat:", error);
       toast({
         title: "Error deleting chat",
         description: "Please try again later",

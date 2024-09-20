@@ -7,18 +7,22 @@ import { User } from "@supabase/supabase-js";
 import { ProviderSelect } from "@/components/dashboard/ProviderSelect";
 import { Menu } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 interface Props {
-  userEmail: User['email'];
+  userEmail: User["email"];
 }
 
 export const Dashboard = ({ userEmail }: Props) => {
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
+        !isDesktop &&
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node)
       ) {
@@ -26,17 +30,24 @@ export const Dashboard = ({ userEmail }: Props) => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // to not call this function on desktop
+    if (!isDesktop) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      if (!isDesktop) {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
     };
-  }, []);
+  }, [isDesktop]);
 
   return (
     <DashboardProvider>
       <div className="p-4 h-full w-full flex sm:gap-4 relative">
         <div className={`${isSidebarOpen ? "w-1/3" : ""}`}>
-          {/* Hamburger menu for mobile */}
+          
+          {/* For mobile */}
           {!isSidebarOpen && (
             <button
               className="md:hidden absolute top-4 left-4 z-20"
@@ -45,8 +56,6 @@ export const Dashboard = ({ userEmail }: Props) => {
               <Menu />
             </button>
           )}
-
-          {/* Sidebar */}
 
           <div
             ref={sidebarRef}
@@ -64,7 +73,7 @@ export const Dashboard = ({ userEmail }: Props) => {
             <ChatList onChatClick={() => setIsSidebarOpen(false)} />
           </div>
         </div>
-        <Conversation userEmail={userEmail}/>
+        <Conversation userEmail={userEmail} />
       </div>
     </DashboardProvider>
   );

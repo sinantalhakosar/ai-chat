@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/useToast";
 import { Provider } from "@/types/Common.types";
 import { ApiKeyList } from "@/components/dashboard/api-keys/ApiKeyList";
 import { ApiKeyUpsert } from "@/components/dashboard/api-keys/ApiKeyUpsert";
-import { mapProviderToApiKeyName } from "@/utils/mapProviderToName";
+import { mapProviderToApiKeyName } from "@/utils/mapProviderToApiKeyName";
 import { availableProviders } from "@/data/aiModelsAndProviders";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -17,7 +17,9 @@ export default function ApiKeysPage() {
   const [providers, setProviders] = useState<
     { key: Provider; value: string }[]
   >([]);
+
   const [newApiValue, setNewApiValue] = useState("");
+
   const [selectedProvider, setSelectedProvider] = useState<
     Provider | undefined
   >(undefined);

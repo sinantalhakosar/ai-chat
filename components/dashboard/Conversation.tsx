@@ -3,13 +3,7 @@
 import { Message, useChat } from "ai/react";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { IconButton } from "@/components/ui/IconButton";
-import {
-  Copy,
-  KeyRound,
-  RefreshCcw,
-  Send,
-  Square,
-} from "lucide-react";
+import { Copy, KeyRound, RefreshCcw, Send, Square } from "lucide-react";
 import { ConversationInfoTab } from "@/components/dashboard/ConversationInfoTab";
 import { ConversationBubble } from "@/components/dashboard/ConversationBubble";
 import { FormEvent, useEffect, useState } from "react";
@@ -23,7 +17,7 @@ import { deleteLastMessageFromChat } from "@/utils/api/deleteLastMessageFromChat
 import { useToast } from "@/hooks/useToast";
 import { validateApiKey } from "@/utils/validateApiKey";
 import { Button } from "@/components/ui/Button";
-import { getProviderLogo, mapProviderToName } from "@/utils/mapProviderToName";
+import { mapProviderToName } from "@/utils/mapProviderToName";
 import Link from "next/link";
 import { updateChatSummary } from "@/utils/supabase/updateChatSummary";
 import { Input } from "@/components/ui/Input";
@@ -31,9 +25,10 @@ import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
 import { EmptyChat } from "@/components/dashboard/EmptyChat";
 import { User } from "@supabase/supabase-js";
+import { getProviderLogo } from "@/utils/getProviderLogo";
 
 interface Props {
-  userEmail: User['email'];
+  userEmail: User["email"];
 }
 
 export default function Conversation({ userEmail }: Props) {
@@ -78,8 +73,16 @@ export default function Conversation({ userEmail }: Props) {
     streamProtocol: "text",
     onFinish: async (message) => {
       if (selectedChatId) {
-        await updateChatSummary(selectedChatId, messages);
-        await createMessage(selectedChatId, message.content, "assistant");
+        try {
+          await updateChatSummary(selectedChatId, messages);
+          await createMessage(selectedChatId, message.content, "assistant");
+        } catch (error) {
+          toast({
+            title: "Error",
+            description: "Failed to update chat. Please try again.",
+            variant: "destructive",
+          });
+        }
       }
     },
   });
@@ -95,31 +98,39 @@ export default function Conversation({ userEmail }: Props) {
   useEffect(() => {
     const loadMessages = async () => {
       setLoading(true);
-      if (!selectedChatId) {
-        setMessages([]);
-        setChatSummary("");
+      try {
+        if (!selectedChatId) {
+          setMessages([]);
+          setChatSummary("");
+          return;
+        }
+
+        const { messages, chatSummary } = await fetchMessages(selectedChatId);
+
+        const fetchedMessages = messages.map((m) => {
+          const message: Message = {
+            id: m.id.toString(),
+            role: m.sender,
+            content: m.content,
+          };
+          return message;
+        });
+
+        setMessages(fetchedMessages);
+        setChatSummary(chatSummary);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to load messages. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
         setLoading(false);
-        return;
       }
-
-      const { messages, chatSummary } = await fetchMessages(selectedChatId);
-
-      const fetchedMessages = messages.map((m) => {
-        const message: Message = {
-          id: m.id.toString(),
-          role: m.sender,
-          content: m.content,
-        };
-        return message;
-      });
-
-      setMessages(fetchedMessages);
-      setChatSummary(chatSummary);
-      setLoading(false);
     };
 
     loadMessages();
-  }, [selectedChatId, setMessages]);
+  }, [selectedChatId, setMessages, toast]);
 
   useEffect(() => {
     if (error) {
@@ -138,16 +149,24 @@ export default function Conversation({ userEmail }: Props) {
       return;
     }
 
-    let chatId = selectedChatId;
-    if (!chatId) {
-      const data = await createChat(selectedProvider);
-      setSelectedChatId(data.id);
-      chatId = data.id;
+    try {
+      let chatId = selectedChatId;
+      if (!chatId) {
+        const data = await createChat(selectedProvider);
+        setSelectedChatId(data.id);
+        chatId = data.id;
+      }
+
+      await createMessage(chatId, input, "user");
+
+      handleSubmit(e);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit message. Please try again.",
+        variant: "destructive",
+      });
     }
-
-    await createMessage(chatId, input, "user");
-
-    handleSubmit(e);
   };
 
   const handleCopyClick = (content: string) => {
@@ -166,11 +185,11 @@ export default function Conversation({ userEmail }: Props) {
           selectedChatId,
           selectedProvider
         );
+
         if (success) {
           reload();
         }
       } catch (error) {
-        console.error("Error regenerating message:", error);
         toast({
           title: "Error",
           description: "Failed to regenerate message",
@@ -180,16 +199,18 @@ export default function Conversation({ userEmail }: Props) {
     }
   };
 
-  if (!mounted) return <></>;
+  if (!mounted) return null;
 
   if (!validKey) {
+    const providerName = mapProviderToName(selectedProvider);
+
     return (
       <div className=" flex justify-center items-center w-full h-screen">
         <div className="bg-[#202020] w-full sm:w-3/4 rounded-2xl flex flex-col justify-center items-center gap-4 p-4">
           <KeyRound size={32} className="text-red-500" />
 
           <p className="text-slate-50 text-lg text-center">
-            No valid API key found for {mapProviderToName(selectedProvider)}
+            No valid API key found for {providerName}
           </p>
 
           <Link href="/dashboard/api-keys">

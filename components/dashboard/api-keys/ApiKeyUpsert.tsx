@@ -9,7 +9,7 @@ import {
 import { Textarea } from "@/components/ui/Textarea";
 import { availableProviders } from "@/data/aiModelsAndProviders";
 import { Provider } from "@/types/Common.types";
-import { mapProviderToApiKeyName } from "@/utils/mapProviderToName";
+import { mapProviderToApiKeyName } from "@/utils/mapProviderToApiKeyName";
 
 interface Props {
   selectedProvider?: Provider;
@@ -36,8 +36,12 @@ export const ApiKeyUpsert = ({
         value={selectedProvider}
       >
         <SelectTrigger className="w-full flex dark:bg-[#4C4C4C] rounded-lg">
-          <SelectValue placeholder="Select API Key" className="dark:placeholder:text-[#BDBDBD]" />
+          <SelectValue
+            placeholder="Select API Key"
+            className="dark:placeholder:text-[#BDBDBD]"
+          />
         </SelectTrigger>
+
         <SelectContent className="dark:bg-[#202020]">
           {availableProviders.map((provider) => (
             <SelectItem key={provider} value={provider}>
@@ -56,7 +60,10 @@ export const ApiKeyUpsert = ({
         className="w-full mt-2 mb-2 dark:bg-[#4C4C4C] rounded-lg dark:placeholder:text-[#BDBDBD]"
       />
 
-      <Button onClick={handleSave} className="ml-auto bg-slate-700 hover:bg-slate-600">
+      <Button
+        onClick={handleSave}
+        className="ml-auto bg-slate-700 hover:bg-slate-600"
+      >
         Add Key
       </Button>
     </div>

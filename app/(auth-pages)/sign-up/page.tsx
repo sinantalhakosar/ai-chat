@@ -19,7 +19,11 @@ import { signinFormSchema, SigninFormValues } from "@/types/Auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/useToast";
 
-export default function Signup({ searchParams }: { searchParams: Message }) {
+interface Props {
+  searchParams: Message;
+}
+
+export default function Signup({ searchParams }: Props) {
   const { toast } = useToast();
 
   const form = useForm<SigninFormValues>({

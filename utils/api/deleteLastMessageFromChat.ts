@@ -17,7 +17,6 @@ export async function deleteLastMessageFromChat(
     const data = await response.json();
     return data.success;
   } catch (error) {
-    console.error("Error deleting last message:", error);
     throw error;
   }
 }

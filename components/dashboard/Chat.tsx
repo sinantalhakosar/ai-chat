@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
-import { ChatDeleteDialog } from "./ChatDeleteDialog";
+import { ChatDeleteDialog } from "@/components/dashboard/ChatDeleteDialog";
 
 interface Props {
   id: ChatType["id"];
@@ -61,6 +61,7 @@ export const Chat = ({
             <span className="sr-only">More</span>
           </Button>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent
           align="start"
           className="z-50 dark:bg-[#202020] flex flex-col p-2"

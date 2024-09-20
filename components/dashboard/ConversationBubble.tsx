@@ -10,20 +10,17 @@ interface ConversationBubbleProps {
   isTyping: boolean;
 }
 
-export const ConversationBubble: React.FC<ConversationBubbleProps> = ({
+export const ConversationBubble = ({
   content,
   type,
   isTyping,
-}) => {
+}: ConversationBubbleProps) => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
-  
+
   const [displayedContent, setDisplayedContent] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const bubbleClassColor =
-    type !== "user"
-      ? "bg-slate-700"
-      : "bg-[#4C4C4C]";
+  const bubbleClassColor = type !== "user" ? "bg-slate-700" : "bg-[#4C4C4C]";
 
   const containerClass =
     type !== "user" ? "flex justify-start" : "flex justify-end";

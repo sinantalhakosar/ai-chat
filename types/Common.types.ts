@@ -1,5 +1,5 @@
 import { Database } from "@/database.types";
-import { AnthropicModel, GoogleModel, OpenAIModel } from "./Model.types";
+import { AnthropicModel, GoogleModel, OpenAIModel } from "@/types/Model.types";
 
 export type Provider = Database["public"]["Enums"]["providers"];
 

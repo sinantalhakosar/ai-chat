@@ -19,7 +19,11 @@ import { Button } from "@/components/ui/Button";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/useToast";
 
-export default function SignIn({ searchParams }: { searchParams: Message }) {
+interface Props {
+  searchParams: Message;
+}
+
+export default function SignIn({ searchParams }: Props) {
   const { toast } = useToast();
 
   const form = useForm<SigninFormValues>({

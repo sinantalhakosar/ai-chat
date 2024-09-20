@@ -12,11 +12,11 @@ export const metadata = {
   description: "Innovative AI-powered chat interface",
 };
 
-export default function RootLayout({
-  children,
-}: {
+interface Props {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" className={`${GeistMono.className} dark`} suppressHydrationWarning>
       <body className="bg-background text-foreground">
