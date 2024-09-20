@@ -4,6 +4,7 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { extractCookieApiKeys } from "@/utils/extractCookieApiKeys";
 import { availableAnthropicModels, availableGoogleModels, availableOpenAIModels } from "@/data/aiModelsAndProviders";
+import { chartTool } from "@/tools/chartTool";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -29,9 +30,10 @@ export async function POST(req: Request) {
       result = await streamText({
         model: openai(model),
         messages: convertToCoreMessages(messages),
+        tools: { chartable_data: chartTool["chartable_data"] },
       });
 
-      return result.toTextStreamResponse();
+      return result.toDataStreamResponse();
     }
 
     if (availableGoogleModels.includes(model)) {

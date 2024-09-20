@@ -4,6 +4,8 @@ import { Message } from "ai";
 import { ConversationBubbleHelpers } from "@/components/conversation/ConversationBubbleHelpers";
 import { motion } from "framer-motion";
 import { ConversationMessagesSkeleton } from "@/components/conversation/ConversationMessagesSkeleton";
+import { extractArrayFromString } from "@/utils/tools/extractArrayFromString";
+import { extractAndJoinMatchingStrings } from "@/utils/tools/extractAndJoinMatchingStrings";
 
 interface Props {
   messages: Message[];
@@ -54,12 +56,17 @@ export const ConversationMessages = ({
             </motion.div>
           ) : (
             <ConversationBubble
-              content={message.content}
+              content={
+                extractArrayFromString(message.content) === undefined
+                  ? extractAndJoinMatchingStrings(message.content)
+                  : ""
+              }
               type={message.role}
               isTyping={
                 message.id === messages[messages.length - 1].id &&
                 isResponseLoading
               }
+              chartData={extractArrayFromString(message.content)}
             />
           )}
 
