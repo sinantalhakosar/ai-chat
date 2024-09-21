@@ -14,7 +14,7 @@ Welcome to AI Chat, an application that brings the power of multiple AI provider
 
 ## 🚀 Deployed
 Deployed on Vercel. Below are deployed links:
-- [Main link](https://ai-chat-git-main-joseph-s-projects.vercel.app/)
+- [Main link](https://ai-chat-interface-mauve.vercel.app)
 - [AI with tool calls](https://ai-chat-interface-git-tools-sinan-talha-kosars-projects.vercel.app/?_vercel_share=ocMKt7tWKS5dmGZEgmLvom2EuLZ9Md9K)
 
 > [!NOTE]
